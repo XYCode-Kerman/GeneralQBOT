@@ -10,8 +10,9 @@ async def test(event: Union[GroupMessage, FriendMessage], bot: Mirai, command: L
     
 async def math_handle(event: GroupMessage, bot: Mirai, command: List[str]):
     del command[0]
+    print(command[0])
     result = str(
-        eval(''.join(command))
+        eval(command[0])
     )
     
     await bot.send(event, f'{" ".join(command)[0:5]}... 的计算结果为：{result}')
