@@ -8,6 +8,7 @@ ADMIN_QQ = []
 
 # bot
 BOT_QQ = 0
+GROUP = []
 STARTS_WITH = '.'
 
 # Tencent Cloud
