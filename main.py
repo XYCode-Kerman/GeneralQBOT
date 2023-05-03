@@ -28,6 +28,9 @@ if '__main__' == __name__:
                 command = shlex.split(message)
                 
                 if command[0] == 'test':
-                    await test(event, bot)
+                    await test(event, bot, command)
+                elif command[0] == 'math':
+                    await math_handle(event, bot, command)
+            
 
     bot.run()
