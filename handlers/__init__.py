@@ -14,4 +14,4 @@ async def math_handle(event: GroupMessage, bot: Mirai, command: List[str]):
         eval(''.join(command))
     )
     
-    await bot.send(event, f'{" ".join(command)} 的计算结果为：{result}')
+    await bot.send(event, f'{" ".join(command)[0:5]}... 的计算结果为：{result}')
