@@ -34,6 +34,7 @@ if '__main__' == __name__:
                     await math_handle(event, bot, command)
                 elif command[0] == 'hitokoto':
                     await hitokoto(event, bot, command)
-            
+                elif command[0] == 'picture':
+                    await picture(event, bot, command)
 
     bot.run()
