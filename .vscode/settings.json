@@ -1,7 +1,7 @@
 {
     "editor.fontFamily": "Consolas, '微软雅黑', 'Courier New', monospace",
     "[python]": {
-        "editor.defaultFormatter": "ms-python.black-formatter"
+        "editor.defaultFormatter": "ms-python.python"
     },
     "python.formatting.provider": "none"
 }
