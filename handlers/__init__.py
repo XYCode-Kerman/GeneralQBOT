@@ -1,5 +1,9 @@
 import math
+import base64
 import requests
+import pathlib
+import configs.pictures as pic
+import random as rd
 import numpy as np
 from math import *
 from numpy import *
@@ -8,7 +12,7 @@ from mirai import *
 
 async def test(event: Union[GroupMessage, FriendMessage], bot: Mirai, command: List[str]):
     await bot.send(event, [Plain('这是一个测试，出现这条消息，说明机器人已经在工作了！')])
-    
+
 async def math_handle(event: GroupMessage, bot: Mirai, command: List[str]):
     del command[0]
     print(command[0])
@@ -38,3 +42,21 @@ async def hitokoto(event: GroupMessage, bot: Mirai, command: List[str]):
     data = req.json()
     
     await bot.send(event, f'{data["hitokoto"]}\n——  {data["from_who"]}《{data["from"]}》')
+
+async def picture(event: Union[GroupMessage, FriendMessage], bot: Mirai, command: List[str]):
+    images = [
+        x
+        for x in pic.IMAGE_DIR.iterdir()
+        if x.is_file()
+    ]
+    
+    image: pathlib.Path = rd.choice(images)
+    
+    with open(image, 'rb') as f:
+        data = f.read()
+        b64_data = base64.b64encode(data).decode('utf-8')
+    
+    await bot.send(event, [
+        Plain(f'这是来自 {image.name.replace(".png", "").replace(".jpg", "")} 的图片'),
+        Image(base64=b64_data)
+    ])
