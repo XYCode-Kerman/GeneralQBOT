@@ -1,15 +1,49 @@
 import datetime
+import pymongo
+import mirai.exceptions
+import json
+from handlers import tms
 from configs import config
 from mirai import *
 from typing import *
 
 message_rate: Dict[datetime.datetime, Dict[int, int]] = {}
+mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
+
+if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
+    print(config.DATABASE_NAME, "doesn't exists, will create")
+
+db = mongo[config.DATABASE_NAME]
+
+async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=None):
+    message = db['message']
+    message.insert_one(
+        {
+            'message': event.message_chain.__str__(),
+            'sender': {
+                'id': event.sender.id,
+                'name': event.sender.member_name,
+                'join_time': event.sender.join_timestamp
+            },
+            'group': {
+                'id': event.group.id,
+                'name': event.group.name
+            },
+            'block': {
+                'blocked': blocked,
+                'reason': reason
+            }
+        }
+    )
 
 async def anti_fc(event: GroupMessage, bot: Mirai):
     date = datetime.datetime.now()
     date = datetime.datetime.fromtimestamp(
         int(date.timestamp()) + (30 - int(date.timestamp()) % 30)
     )
+    
+    blocked = False
+    reason = None
     
     print('anti fc', message_rate)
     
@@ -26,6 +60,9 @@ async def anti_fc(event: GroupMessage, bot: Mirai):
             At(target=event.sender.id),
             Plain(f'你发送的消息超过了管理员设置的 {config.ALERT_MESSAGE_RATE} 条消息每分钟，现在对您进行警告！\n如果您的消息发送速率超过了 {config.MAX_MESSAGE_RATE}，本群将对您禁言 {config.IF_OVER_MAX_MESSAGE_RATE_MUTE_SECONDS / 60} 分钟！')
         ])
+        
+        blocked = True
+        reason = '警告！超过频率限制'
     
     if message_rate[date][event.sender.id] > config.MAX_MESSAGE_RATE:
         await bot.send(event, [
@@ -34,3 +71,25 @@ async def anti_fc(event: GroupMessage, bot: Mirai):
         ])
         
         await bot.mute(event.group.id, event.sender.id, config.IF_OVER_MAX_MESSAGE_RATE_MUTE_SECONDS)
+        
+        blocked = True
+        reason = '撤回+禁言！超过频率限制'
+    
+    # 文本审核
+    mod = tms.tencent_moderation(str(event.message_chain))
+    if not mod['bad']:
+        blocked = True
+        reason = json.loads(mod['resp'].to_json_string())
+        
+        await bot.send(event, [
+            Plain('您的聊天记录违反了本群规定，现已被撤回！\n'),
+            Plain('根据您的违规情况，我们认为您应该被禁言 {} 分钟'.format(mod['resp'].Score / 100 * 10))
+        ])
+        
+        try:
+            await bot.recall(messageId=event.message_chain.message_id, target=event.group.id)
+            await bot.mute(event.group.id, event.sender.id, mod['resp'].Score / 100 * 10 * 60)
+        except mirai.exceptions.ApiError:
+            pass
+    
+    await save_message(event, bot, blocked, reason)
