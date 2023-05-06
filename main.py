@@ -14,19 +14,8 @@ if '__main__' == __name__:
     @bot.on(GroupMessage)
     async def group_message(event: GroupMessage):
         if event.group.id in config.GROUP:
-            # 反刷屏
+            # 反不良信息
             await handlers.anti_flippedscreen.anti_fc(event, bot)
-            
-            # 文本审核
-            mod = handlers.tms.tencent_moderation(str(event.message_chain))
-            if not mod['bad']:
-                await bot.send(event, [
-                    Plain('您的聊天记录违反了本群规定，现已被撤回！\n'),
-                    Plain('根据您的违规情况，我们认为您应该被禁言 {} 分钟'.format(mod['resp'].Score / 100 * 10))
-                ])
-                
-                await bot.recall(messageId=event.message_chain.message_id, target=event.group.id)
-                await bot.mute(event.group.id, event.sender.id, mod['resp'].Score / 100 * 10 * 60)           
 
             # 判断是否为机器人指令
             if str(event.message_chain).startswith(config.STARTS_WITH):
