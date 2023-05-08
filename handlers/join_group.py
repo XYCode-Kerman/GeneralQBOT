@@ -1,6 +1,7 @@
 import datetime
 import pymongo
 import jwt
+import uuid
 from mirai import *
 from mirai_extensions.trigger import InterruptControl, Filter, GroupMessageFilter, FriendMessageFilter
 from configs import config
@@ -47,10 +48,12 @@ async def get_join_key(event: Union[GroupMessage, FriendMessage], bot: Mirai, co
     if await inc.wait(confirm_waiter, 60):
         exp_time: datetime.datetime = datetime.datetime.now() + datetime.timedelta(days=1)
         
-        encoded_jwt = jwt.encode({
+        encoded_jwt = uuid.uuid4().__str__()
+        db['join_keys'].insert_one({
             'target': target,
-            'exp_time': exp_time.timestamp()
-        }, config.JWT_KEY)
+            'exp_time': exp_time,
+            'key': encoded_jwt
+        })
         
         await bot.send(event, str(encoded_jwt))
         await bot.send(event, f'加群时将如上 token 填入请求中即可自动批准！\n请在 24 小时内（即 {exp_time.strftime("%m 月 %d 日 %H:%M:%S")} 前）')
