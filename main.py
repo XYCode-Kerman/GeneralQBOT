@@ -32,5 +32,9 @@ if '__main__' == __name__:
                     await hitokoto(event, bot, command)
                 elif command[0] == 'picture':
                     await picture(event, bot, command)
+                elif command[0] == 'bing':
+                    await bing(event, bot, command)
+                elif command[0] == 'breset':
+                    await breset(event, bot, command)
 
     bot.run()
