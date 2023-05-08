@@ -62,7 +62,7 @@ if '__main__' == __name__:
 
         if data is None:
             await bot.decline(event, '不符合要求的 token！请重新申请！')
-            retur
+            return
         
         target: int = data.get('target', None)
         exp_time: datetime.datetime = decoded.get('exp_time', None)
