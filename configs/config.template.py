@@ -28,3 +28,6 @@ DATABASE_NAME = ''
 COOKIE_PATH = ''
 ASYNC_RESPONSE = True
 ASYNC_SEND_CHAR = 5
+
+# Secret Things
+JWT_KEY = 'qwertyuiooasdfgthyjukwadfgfssdrfthgfggghfvyrbdekarghfyehausdefgaeruwhgahyefguhadgifhaghrurjghgruhfaeijowOIHASDFGA45GE78GA1ERG78GAE456EW8AWEE841789ger456789g456fds156'

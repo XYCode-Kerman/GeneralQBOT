@@ -1,10 +1,12 @@
 import shlex
 import handlers.tms
 import handlers.anti_flippedscreen
+import handlers.join_group
 import datetime
 from configs import config
 from handlers import *
 from mirai import *
+from mirai.models.events import MemberJoinRequestEvent
 from typing import *
 
 bot = Mirai(qq=config.BOT_QQ, adapter=WebSocketAdapter(verify_key=config.API_VERIFY_KEY, host=config.API_HOST, port=config.API_PORT))
@@ -36,5 +38,10 @@ if '__main__' == __name__:
                     await bing(event, bot, command)
                 elif command[0] == 'breset':
                     await breset(event, bot, command)
+                elif command[0] == 'get_join_key':
+                    if event.sender.id not in config.ADMIN_QQ:
+                        await bot.send(event, '您无权使用！')
+                    else:
+                        await handlers.join_group.get_join_key(event, bot, command)
 
     bot.run()
