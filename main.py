@@ -22,11 +22,33 @@ if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
 db = mongo[config.DATABASE_NAME]
 
 if '__main__' == __name__:
+    def member_check(event: GroupMessage):
+        usercol = db['userdata']
+        
+        data = usercol.find({
+            'id': event.sender.id
+        })
+        
+        data = [
+            x['id']
+            for x in data
+        ]
+        
+        if event.sender.id not in data:
+            usercol.insert_one({
+                'id': event.sender.id,
+                'name': event.sender.member_name,
+                'integral': 0
+            })
+    
     @bot.on(GroupMessage)
     async def group_message(event: GroupMessage):
         if event.group.id in config.GROUP:
             # 反不良信息
             await handlers.anti_flippedscreen.anti_fc(event, bot)
+            
+            # 自动注册
+            member_check(event)
 
             # 判断是否为机器人指令
             if str(event.message_chain).startswith(config.STARTS_WITH):
