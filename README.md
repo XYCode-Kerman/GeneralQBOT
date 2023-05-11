@@ -45,3 +45,15 @@
   - [x] 根据邀请码判断能否入群
   - [ ] 根据邀请人判断能否入群（Yiri Mirai 在 pypi 上的版本暂不支持该功能，请使用 Github 上的 master 分支）
 - [ ] 基于 ChatGPT 的自动面试（针对需要一定知识的游戏交流群和其他需要面试的场景）
+
+## 使用
+
+参见我们的 [Wiki](https://github.com/XYCode-Kerman/GeneralQBOT/wiki)。
+
+## 参与开发![Star History Chart](https://api.star-history.com/svg?repos=XYCode-Kerman/GeneralQBOT&type=Timeline)
+
+(WIP)
+
+### 注意事项
+
+所有向main的提交都应该是Pull Requests！不要强制推送！！！
