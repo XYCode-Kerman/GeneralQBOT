@@ -106,7 +106,7 @@ if '__main__' == __name__:
 
     # 定时任务
     scheduler = AsyncIOScheduler()
-    @scheduler.scheduled_job(CronTrigger(hour='*', minute=5))
+    @scheduler.scheduled_job(config.TIMER_TRIGGER)
     async def timer():
         response = openai.ChatCompletion.create(
             model='gpt-3.5-turbo',
