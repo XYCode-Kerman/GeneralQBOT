@@ -1,3 +1,9 @@
+"""
+* @project       GeneralQBOT
+* @author        XYCode <xycode-xyc@outlook.com>
+* @date          2023-05-03 08:34:23
+* @lastModified  2023-05-13 18:39:27
+"""
 import math
 import base64
 import requests

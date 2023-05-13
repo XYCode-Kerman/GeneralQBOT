@@ -1,3 +1,9 @@
+"""
+* @project       GeneralQBOT
+* @author        XYCode <xycode-xyc@outlook.com>
+* @date          2023-05-08 22:37:16
+* @lastModified  2023-05-13 18:39:17
+"""
 import datetime
 import pymongo
 import jwt

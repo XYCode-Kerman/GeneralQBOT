@@ -1,3 +1,9 @@
+"""
+* @project       GeneralQBOT
+* @author        XYCode <xycode-xyc@outlook.com>
+* @date          2023-05-01 23:32:16
+* @lastModified  2023-05-13 18:38:00
+"""
 import shlex
 import handlers.tms
 import handlers.anti_flippedscreen

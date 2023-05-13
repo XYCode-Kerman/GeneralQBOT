@@ -1,3 +1,9 @@
+"""
+* @project       GeneralQBOT
+* @author        XYCode <xycode-xyc@outlook.com>
+* @date          2023-05-05 12:54:04
+* @lastModified  2023-05-13 18:39:04
+"""
 import datetime
 import pymongo
 import mirai.exceptions
