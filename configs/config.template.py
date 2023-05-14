@@ -2,7 +2,7 @@
 * @project       GeneralQBOT
 * @author        XYCode <xycode-xyc@outlook.com>
 * @date          2023-05-03 08:34:06
-* @lastModified  2023-05-13 18:38:21
+* @lastModified  2023-05-14 16:16:30
 """
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
