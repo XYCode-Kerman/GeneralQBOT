@@ -2,13 +2,14 @@
 * @project       GeneralQBOT
 * @author        XYCode <xycode-xyc@outlook.com>
 * @date          2023-05-01 23:32:16
-* @lastModified  2023-05-14 17:03:49
+* @lastModified  2023-05-14 17:22:05
 """
 import shlex
 import handlers.tms
 import handlers.anti_flippedscreen
 import handlers.join_group
 import handlers.integral
+import handlers.cgpt
 import datetime
 import jwt
 from configs import config
@@ -56,39 +57,46 @@ if '__main__' == __name__:
     
     @bot.on(GroupMessage)
     async def group_message(event: GroupMessage):
-        if event.group.id in config.GROUP:
-            # 反不良信息
-            await handlers.anti_flippedscreen.anti_fc(event, bot)
-            
-            # 自动注册
-            member_check(event)
-
-            # 判断是否为机器人指令
-            if str(event.message_chain).startswith(config.STARTS_WITH):
-                # 解析
-                message = str(event.message_chain)[1:]
-                print(message)
-                command = shlex.split(message)
+        try:
+            if event.group.id in config.GROUP:
+                # 反不良信息
+                await handlers.anti_flippedscreen.anti_fc(event, bot)
                 
-                if command[0] == 'test':
-                    await test(event, bot, command)
-                elif command[0] == 'math':
-                    await math_handle(event, bot, command)
-                elif command[0] == 'hitokoto':
-                    await hitokoto(event, bot, command)
-                elif command[0] == 'picture':
-                    await picture(event, bot, command)
-                elif command[0] == 'bing':
-                    await bing(event, bot, command)
-                elif command[0] == 'breset':
-                    await breset(event, bot, command)
-                elif command[0] == 'get_join_key':
-                    if event.sender.id not in config.ADMIN_QQ:
-                        await bot.send(event, '您无权使用！')
-                    else:
-                        await handlers.join_group.get_join_key(event, bot, command)
-                elif command[0] == 'integral':
-                    await handlers.integral.integral(event, bot, command)
+                # 自动注册
+                member_check(event)
+
+                # 判断是否为机器人指令
+                if str(event.message_chain).startswith(config.STARTS_WITH):
+                    # 解析
+                    message = str(event.message_chain)[1:]
+                    print(message)
+                    command = shlex.split(message)
+                    
+                    if command[0] == 'test':
+                        await test(event, bot, command)
+                    elif command[0] == 'math':
+                        await math_handle(event, bot, command)
+                    elif command[0] == 'hitokoto':
+                        await hitokoto(event, bot, command)
+                    elif command[0] == 'picture':
+                        await picture(event, bot, command)
+                    elif command[0] == 'bing':
+                        await bing(event, bot, command)
+                    elif command[0] == 'breset':
+                        await breset(event, bot, command)
+                    elif command[0] == 'get_join_key':
+                        if event.sender.id not in config.ADMIN_QQ:
+                            await bot.send(event, '您无权使用！')
+                        else:
+                            await handlers.join_group.get_join_key(event, bot, command)
+                    elif command[0] == 'integral':
+                        await handlers.integral.integral(event, bot, command)
+        except Exception as e:
+            exc = traceback.format_exc()
+            
+            content = handlers.cgpt.generate_by_gpt('以下是一个Python语言的报错，请使用幽默且通俗易懂提示用户这个错误。要求表述完整，并为产生这个错误表示深深的歉意，不超过50字', exc)
+            
+            await bot.send(event, '[趣味日志] ' + content)
 
     @bot.on(MemberJoinRequestEvent)
     async def member_join_request(event: MemberJoinRequestEvent):
