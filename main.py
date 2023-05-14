@@ -2,12 +2,13 @@
 * @project       GeneralQBOT
 * @author        XYCode <xycode-xyc@outlook.com>
 * @date          2023-05-01 23:32:16
-* @lastModified  2023-05-14 16:35:04
+* @lastModified  2023-05-14 17:03:49
 """
 import shlex
 import handlers.tms
 import handlers.anti_flippedscreen
 import handlers.join_group
+import handlers.integral
 import datetime
 import jwt
 from configs import config
@@ -49,7 +50,8 @@ if '__main__' == __name__:
             usercol.insert_one({
                 'id': event.sender.id,
                 'name': event.sender.member_name,
-                'integral': 0
+                'integral': 0,
+                'last_checkin': datetime.datetime.now()
             })
     
     @bot.on(GroupMessage)
@@ -85,6 +87,8 @@ if '__main__' == __name__:
                         await bot.send(event, '您无权使用！')
                     else:
                         await handlers.join_group.get_join_key(event, bot, command)
+                elif command[0] == 'integral':
+                    await handlers.integral.integral(event, bot, command)
 
     @bot.on(MemberJoinRequestEvent)
     async def member_join_request(event: MemberJoinRequestEvent):
