@@ -2,13 +2,14 @@
 * @project       GeneralQBOT
 * @author        XYCode <xycode-xyc@outlook.com>
 * @date          2023-05-01 23:32:16
-* @lastModified  2023-05-14 17:22:05
+* @lastModified  2023-05-14 23:43:53
 """
 import shlex
 import handlers.tms
 import handlers.anti_flippedscreen
 import handlers.join_group
 import handlers.integral
+import handlers.games.guess_numbers
 import handlers.cgpt
 import datetime
 import jwt
@@ -91,6 +92,9 @@ if '__main__' == __name__:
                             await handlers.join_group.get_join_key(event, bot, command)
                     elif command[0] == 'integral':
                         await handlers.integral.integral(event, bot, command)
+                    elif command[0] == 'game':
+                        if command[1] == 'guess_numbers':
+                            await handlers.games.guess_numbers.guess_numbers(event, bot, command)
         except Exception as e:
             exc = traceback.format_exc()
             
