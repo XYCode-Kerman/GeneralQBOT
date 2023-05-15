@@ -1,8 +1,8 @@
 """
 * @project       GeneralQBOT
-* @author        XYCode-Kerman <xycode-xyc@outlook.com>
+* @author        XYCode <xycode-xyc@outlook.com>
 * @date          1970-01-01 08:00:00
-* @lastModified  2023-05-14 23:39:21
+* @lastModified  2023-05-15 12:52:15
 """
 import random
 import pymongo
@@ -18,6 +18,8 @@ if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
     print(config.DATABASE_NAME, "doesn't exists, will create")
 
 db = mongo[config.DATABASE_NAME]
+
+__all__ = ['guess_numbers']
 
 def add_integral(integral: int, id: int):
     userdata = db['userdata']

@@ -2,7 +2,7 @@
 * @project       GeneralQBOT
 * @author        XYCode <xycode-xyc@outlook.com>
 * @date          2023-05-05 12:54:04
-* @lastModified  2023-05-13 18:39:04
+* @lastModified  2023-05-15 12:53:43
 """
 import datetime
 import pymongo
@@ -20,6 +20,8 @@ if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
     print(config.DATABASE_NAME, "doesn't exists, will create")
 
 db = mongo[config.DATABASE_NAME]
+
+__all__ = ['save_message', 'anti_fc']
 
 async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=None):
     message = db['message']
