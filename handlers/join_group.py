@@ -20,6 +20,8 @@ if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
 
 db = mongo[config.DATABASE_NAME]
 
+__all__ = ['get_join_key']
+
 async def get_join_key(event: Union[GroupMessage, FriendMessage], bot: Mirai, command: List[str]):
     del command[0]
     

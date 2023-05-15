@@ -1,8 +1,8 @@
 """
 * @project       GeneralQBOT
-* @author        XYCode-Kerman <xycode-xyc@outlook.com>
+* @author        XYCode <xycode-xyc@outlook.com>
 * @date          1970-01-01 08:00:00
-* @lastModified  2023-05-14 17:07:18
+* @lastModified  2023-05-15 12:51:36
 """
 import pymongo
 import configs.config as config
@@ -64,4 +64,4 @@ async def integral(event: GroupMessage, bot: Mirai, command: List[str]):
                 
                 await bot.send(event, '签到成功')
 
-__all__ = ['integral']
+__all__ = ['integral', 'get_integral']
