@@ -125,3 +125,6 @@ dmypy.json
 
 config.py
 cookies.json
+
+logs/*
+*.log
