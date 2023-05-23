@@ -2,7 +2,7 @@
 * @project       GeneralQBOT
 * @author        XYCode <xycode-xyc@outlook.com>
 * @date          2023-05-01 23:32:16
-* @lastModified  2023-05-14 23:43:53
+* @lastModified  2023-05-15 22:37:07
 """
 import shlex
 import handlers.tms
@@ -11,6 +11,8 @@ import handlers.join_group
 import handlers.integral
 import handlers.games.guess_numbers
 import handlers.cgpt
+import handlers.pixiv.listener
+import handlers.pixiv.manager
 import datetime
 import jwt
 from configs import config
@@ -23,10 +25,12 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 import traceback
 import pymongo
 import openai
+from utils.logger import get_gq_logger
 
 bot = Mirai(qq=config.BOT_QQ, adapter=WebSocketAdapter(verify_key=config.API_VERIFY_KEY, host=config.API_HOST, port=config.API_PORT))
 
 mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
+logger = get_gq_logger()
 
 if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
     print(config.DATABASE_NAME, "doesn't exists, will create")
@@ -34,6 +38,8 @@ if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
 db = mongo[config.DATABASE_NAME]
 
 openai.api_key = config.OPENAI_KEY
+
+listening = []
 
 if '__main__' == __name__:
     def member_check(event: GroupMessage):
@@ -95,6 +101,8 @@ if '__main__' == __name__:
                     elif command[0] == 'game':
                         if command[1] == 'guess_numbers':
                             await handlers.games.guess_numbers.guess_numbers(event, bot, command)
+                    elif command[0] == 'pixiv':
+                        await handlers.pixiv.manager.manager(event, bot, command)
         except Exception as e:
             exc = traceback.format_exc()
             
@@ -144,6 +152,50 @@ if '__main__' == __name__:
         for group in config.GROUP:
             await bot.send_group_message(group, '[定时提醒] ' + content)
 
+    async def start_listeners():
+        listeners = db['listeners']
+        listeners = list(listeners.find({}))
+        
+        global listening
+        
+        # when listeners col isn't exists
+        if len(listeners) == 0:
+            listeners = [
+                {
+                    'target': 'test_only',
+                    'type': 'test_only',
+                    'name': 'test_only',
+                    'trigger_rate': '* * * * *'
+                }
+            ]
+            
+            for listener in listeners:
+                db['listeners'].insert_one(listener)
+        
+        for listener in listeners:
+            if listener['target'] == 'pixiv':
+                listener = handlers.pixiv.listener.PixivListener(
+                    type=listener['type'],
+                    api_url='test',
+                    name=listener['name'],
+                    scheduler=scheduler,
+                    bot=bot,
+                    trigger_rate=CronTrigger.from_crontab(listener['trigger_rate'])
+                )
+                
+                listening.append(listener)
+            else:
+                logger.warning(f'未知的监听器类型：{listener["target"]}')
+
+    async def restart_listeners():
+        # stop all listeners
+        for listener in listening:
+            listener.stop()
+            listening.remove(listener)
+            
+        # start all listeners
+        await start_listeners()
+
     @bot.on(Startup)
     async def startup(event: Startup):
         response = openai.ChatCompletion.create(
@@ -162,6 +214,9 @@ if '__main__' == __name__:
             await bot.send_group_message(group, f'[免责声明] 本机器人所有的 [定时提醒] [趣味日志] 均由 OpenAI 公司的 gpt-3.5-turbo 模型生成，本人不对其负有任何责任')
         
         await timer()
+        
+        # pixiv_listener = handlers.pixiv.listener.PixivListener('tag', 'test', 'girl', CronTrigger(minute='*', second=30), scheduler, bot)
+        await start_listeners()
         
         scheduler.start()
         
