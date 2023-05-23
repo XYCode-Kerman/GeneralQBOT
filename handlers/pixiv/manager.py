@@ -10,7 +10,6 @@ from utils.logger import get_gq_logger
 from configs import config
 from mirai import *
 from typing import *
-from typing_extensions import *
 
 mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
 logger = get_gq_logger()

@@ -15,7 +15,7 @@ import handlers.pixiv.listener
 import handlers.pixiv.manager
 import datetime
 import jwt
-from configs import config
+from configs import config, feature
 from handlers import *
 from mirai import *
 from mirai.models.events import MemberJoinRequestEvent

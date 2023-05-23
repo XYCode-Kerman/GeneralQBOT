@@ -10,7 +10,6 @@ from configs import config
 from mirai import *
 from mirai_extensions.trigger import GroupMessageFilter, FriendMessageFilter, Trigger, InterruptControl
 from typing import *
-from typing_extensions import *
 
 mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
 
