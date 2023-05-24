@@ -23,7 +23,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --no-dependencies flake8 pytest pytest-cov
+          pip install --no-dependencies flake8 pytest pytest-cov coverage
           pip install --force --no-dependencies -r requirements.txt
 
       - name: Build coverage file
