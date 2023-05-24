@@ -1,12 +1,12 @@
 APScheduler==3.10.1
 EdgeGPT==0.6.2
 jieba==0.42.1
-mirai==0.1.5
+yiri-mirai
 numpy==1.19.5
 openai==0.27.6
 PyJWT==2.7.0
 pymongo==4.3.3
-Requests==2.31.0
+requests==2.31.0
 tencentcloud_sdk_python_common==3.0.885
 tencentcloud_sdk_python_tms==3.0.885
 tensorflow==2.4.1
