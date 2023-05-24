@@ -19,20 +19,16 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      
-      - name: Set up Venv
-        run: |
-          python -m venv venv/
 
       - name: Install dependencies
         run: |
-          venv/bin/python -m pip install --upgrade pip
-          venv/bin/python -m pip install --no-dependencies pytest coverage pytest-cov
-          venv/bin/python -m pip install --force --no-dependencies -r requirements.txt
+          pip install --no-dependencies flake8 pytest coverage pytest-cov
+          pip install --force --no-dependencies -r requirements.txt
+          pip install -e .
 
       - name: Build coverage file
         run: |
-          venv/bin/python -m pytest --cov
+          python -m pytest --cov
       
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3

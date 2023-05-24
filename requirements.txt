@@ -54,8 +54,6 @@ oauthlib==3.2.2
 openai==0.27.6
 opt-einsum==3.3.0
 packaging==23.1
-pip==23.0.1
-pipx==1.2.0
 pluggy==1.0.0
 pooch==1.4.0
 priority==2.0.0
