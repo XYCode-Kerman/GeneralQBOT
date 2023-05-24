@@ -4,6 +4,14 @@
 * @date          2023-05-03 08:34:23
 * @lastModified  2023-05-15 12:53:02
 """
+import sys
+sys.path.append('.')
+sys.path.append('../')
+sys.path.append('../../')
+sys.path.append('../configs')
+sys.path.append('./configs')
+sys.path.append('/home/runner/work/GeneralQBOT/GeneralQBOT')
+sys.path.append('/home/runner/work/GeneralQBOT/GeneralQBOT/configs')
 import math
 import base64
 import requests
