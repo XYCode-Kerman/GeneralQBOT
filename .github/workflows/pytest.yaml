@@ -23,12 +23,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install --no-dependencies flake8 pytest pytest-cov coverage
+          pip install --no-dependencies flake8 pytest pytest-cover coverage
           pip install --force --no-dependencies -r requirements.txt
 
       - name: Build coverage file
         run: |
-          pytest -s
+          pytest -s --cov
+      
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
 
       # - name: Pytest coverage comment
       #   uses: MishaKav/pytest-coverage-comment@main
