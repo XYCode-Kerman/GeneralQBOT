@@ -2,7 +2,7 @@
 * @project       GeneralQBOT
 * @author        XYCode <xycode-xyc@outlook.com>
 * @date          2023-05-03 08:34:23
-* @lastModified  2023-05-13 18:39:27
+* @lastModified  2023-05-15 12:53:02
 """
 import math
 import base64
@@ -20,6 +20,8 @@ from EdgeGPT import Chatbot, ConversationStyle
 
 bing_bot = Chatbot(cookie_path=COOKIE_PATH)
 count_prompt = 0
+
+__all__ = ['test', 'math_handle', 'hitokoto', 'picture', 'breset', 'bing']
 
 async def test(event: Union[GroupMessage, FriendMessage], bot: Mirai, command: List[str]):
     await bot.send(event, [Plain('这是一个测试，出现这条消息，说明机器人已经在工作了！')])

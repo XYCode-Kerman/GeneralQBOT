@@ -1,7 +1,11 @@
 {
     "editor.fontFamily": "Consolas, '微软雅黑', 'Courier New', monospace",
     "[python]": {
-        "editor.defaultFormatter": "ms-python.python"
+        "editor.defaultFormatter": "ms-python.autopep8"
     },
-    "python.formatting.provider": "none"
+    "python.formatting.provider": "none",
+    "cSpell.words": [
+        "openai",
+        "pymongo"
+    ]
 }

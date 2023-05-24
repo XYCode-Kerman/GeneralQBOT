@@ -2,7 +2,7 @@
 * @project       GeneralQBOT
 * @author        XYCode <xycode-xyc@outlook.com>
 * @date          2023-05-08 22:37:16
-* @lastModified  2023-05-13 18:39:17
+* @lastModified  2023-05-15 12:54:20
 """
 import datetime
 import pymongo
@@ -19,6 +19,8 @@ if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
     print(config.DATABASE_NAME, "doesn't exists, will create")
 
 db = mongo[config.DATABASE_NAME]
+
+__all__ = ['get_join_key']
 
 async def get_join_key(event: Union[GroupMessage, FriendMessage], bot: Mirai, command: List[str]):
     del command[0]
