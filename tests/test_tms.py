@@ -1,6 +1,10 @@
 import sys
+sys.path.append('.')
+sys.path.append('../')
+sys.path.append('../../')
+sys.path.append('../configs')
+sys.path.append('./configs')
 from handlers.tms import ai_moderation, tencent_moderation
-
 
 def test_ai():
     # assert ai_moderation('你好')['bad'] == True
