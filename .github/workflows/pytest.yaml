@@ -29,6 +29,8 @@ jobs:
       - name: Build coverage file
         run: |
           pytest --cov
+        env:
+          PYTHONPATH: .
       
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3

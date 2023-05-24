@@ -1,5 +1,4 @@
 import sys
-sys.path.append('../')
 from handlers.tms import ai_moderation, tencent_moderation
 
 
