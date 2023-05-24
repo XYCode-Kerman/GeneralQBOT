@@ -10,3 +10,7 @@ requests==2.31.0
 tencentcloud_sdk_python_common==3.0.885
 tencentcloud_sdk_python_tms==3.0.885
 tensorflow==2.4.1
+pluggy
+pytest
+pytest-cov
+coverage
