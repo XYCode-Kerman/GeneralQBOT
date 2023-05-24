@@ -14,3 +14,4 @@ pluggy
 pytest
 pytest-cov
 coverage
+python-dotenv==1.0.0
