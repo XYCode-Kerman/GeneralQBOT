@@ -1,11 +1,6 @@
 import sys
 sys.path.append('.')
-sys.path.append('../')
-sys.path.append('../../')
-sys.path.append('../configs')
-sys.path.append('./configs')
-sys.path.append('/home/runner/work/GeneralQBOT/GeneralQBOT')
-sys.path.append('/home/runner/work/GeneralQBOT/GeneralQBOT/configs')
+sys.path.append('..')
 from handlers.tms import ai_moderation, tencent_moderation
 
 def test_ai():
