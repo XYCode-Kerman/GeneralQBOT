@@ -6,6 +6,9 @@
 """
 import json
 import base64
+import tensorflow as tf
+import numpy as np
+import jieba
 from typing import *
 import configs.config as config
 from tencentcloud.common import credential
@@ -13,6 +16,30 @@ from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 from tencentcloud.tms.v20201229 import tms_client, models
+
+tokenizer = tf.keras.preprocessing.text.tokenizer_from_json(open('./models/tms_token.json').read())
+
+def texts_to_seq(texts: list) -> np.ndarray:
+    seq = []
+
+    for text in texts:
+        try:
+            words = jieba.lcut(text)
+        except:
+            words = ['UNK']
+
+        text_seq = []
+
+        for word in words:
+            try:
+                text_seq.append(tokenizer.texts_to_sequences([word])[0][0])
+            except:
+                text_seq.append(0)
+
+        seq.append(text_seq)
+        print('processed', text, text_seq)
+
+    return seq
 
 def tencent_moderation(text: str) -> Dict[str, Union[bool, models.TextModerationResponse]]:
     cred = credential.Credential(config.QCLOUD_SECRET_ID, config.QCLOUD_SECRET_KEY)
@@ -35,4 +62,23 @@ def tencent_moderation(text: str) -> Dict[str, Union[bool, models.TextModeration
         'resp': resp
     }
 
-__all__ = ['tencent_moderation']
+def ai_moderation(text: str) -> Dict[str, Union[bool, models.TextModerationResponse]]:
+    model: tf.keras.models.Sequential = tf.keras.models.load_model('./models/tms.tf')
+    
+    result = model.predict(texts_to_seq([text]))
+    result = result[0][0]
+    
+    class Resp:
+        Score = 0
+    
+    resp = Resp()
+    resp.Score = result * 100
+    
+    # print(result)
+    
+    return {
+        'bad': not (result > 0.7),
+        'resp': resp
+    }
+
+__all__ = ['tencent_moderation', 'ai_moderation']

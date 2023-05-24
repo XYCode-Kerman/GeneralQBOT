@@ -1,46 +1,81 @@
+absl-py @ file:///croot/absl-py_1666362940888/work
 aiofiles==0.7.0
 aiohttp==3.8.4
 aiosignal==1.3.1
 anyio==3.6.2
+appdirs==1.4.4
 APScheduler==3.10.1
 argcomplete==3.0.8
-async-timeout==4.0.2
+astor==0.8.1
+astunparse==1.6.3
+async-timeout @ file:///opt/conda/conda-bld/async-timeout_1664876359750/work
 attrs==23.1.0
 backports.zoneinfo==0.2.1
 BingImageCreator==0.1.5
-certifi==2023.5.7
+blinker==1.4
+brotlipy==0.7.0
+cachetools @ file:///tmp/build/80754af9/cachetools_1619597386817/work
+certifi @ file:///croot/certifi_1683875369620/work/certifi
+cffi @ file:///croot/cffi_1670423208954/work
 charset-normalizer==3.1.0
 click==8.1.3
+cryptography @ file:///croot/cryptography_1677533068310/work
 dnspython==2.3.0
 EdgeGPT==0.3.6
-frozenlist==1.3.3
+flatbuffers @ file:///home/ktietz/cip/python-flatbuffers_1634039120618/work
+frozenlist @ file:///croot/frozenlist_1670004507010/work
+gast @ file:///Users/ktietz/demo/mc3/conda-bld/gast_1628588903283/work
+google-auth @ file:///opt/conda/conda-bld/google-auth_1646735974934/work
+google-auth-oauthlib @ file:///opt/conda/conda-bld/google-auth-oauthlib_1660687784486/work
+google-pasta @ file:///Users/ktietz/demo/mc3/conda-bld/google-pasta_1630577991354/work
+grpcio @ file:///croot/grpc-suite_1681912592597/work
 h11==0.14.0
 h2==4.1.0
+h5py @ file:///tmp/build/80754af9/h5py_1593454122442/work
 hpack==4.0.0
 httpcore==0.17.0
 httpx==0.24.0
 hypercorn==0.14.3
 hyperframe==6.0.1
-idna==3.4
+idna @ file:///croot/idna_1666125576474/work
+importlib-metadata @ file:///croot/importlib-metadata_1678997070253/work
+Keras-Preprocessing @ file:///tmp/build/80754af9/keras-preprocessing_1612283640596/work
+Markdown @ file:///croot/markdown_1671541909495/work
 markdown-it-py==2.2.0
+MarkupSafe @ file:///opt/conda/conda-bld/markupsafe_1654597864307/work
 mdurl==0.1.2
+mkl-fft==1.3.6
+mkl-random @ file:///work/mkl/mkl_random_1682950433854/work
+mkl-service==2.4.0
 multidict==6.0.4
-numpy==1.24.3
+numpy @ file:///work/mkl/numpy_and_numpy_base_1682953417311/work
+oauthlib @ file:///croot/oauthlib_1679489621486/work
 openai==0.27.6
+opt-einsum @ file:///tmp/build/80754af9/opt_einsum_1621500238896/work
 packaging==23.1
 pipx==1.2.0
+pooch @ file:///tmp/build/80754af9/pooch_1623324770023/work
 priority==2.0.0
 prompt-toolkit==3.0.38
+protobuf==3.20.3
+pyasn1 @ file:///Users/ktietz/demo/mc3/conda-bld/pyasn1_1629708007385/work
+pyasn1-modules==0.2.8
+pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
 pydantic==1.10.7
 Pygments==2.15.1
 PyJWT==2.6.0
 pymongo==4.3.3
+pyOpenSSL @ file:///croot/pyopenssl_1677607685877/work
+PySocks @ file:///tmp/build/80754af9/pysocks_1605305779399/work
 pytz==2023.3
 pytz-deprecation-shim==0.1.0.post0
 regex==2023.5.5
 requests==2.30.0
+requests-oauthlib==1.3.0
 rich==13.3.5
-six==1.16.0
+rsa @ file:///tmp/build/80754af9/rsa_1614366226499/work
+scipy==1.10.1
+six @ file:///tmp/build/80754af9/six_1644875935023/work
 sniffio==1.3.0
 socks==0
 socksio==1.0.0
@@ -53,6 +88,12 @@ tencent-cloud-sdk-serverless-database==0.1.4
 tencent-cloud-sdk-serverless-functions==0.2.5
 tencentcloud-sdk-python-common==3.0.885
 tencentcloud-sdk-python-tms==3.0.885
+tensorboard @ file:///home/builder/mesters/opt/envs/tensorflow/conda-bld/tensorboard_1682445826165/work/tensorboard-2.12.1-py3-none-any.whl
+tensorboard-data-server @ file:///croot/tensorboard-data-server_1681498183723/work/tensorboard_data_server-0.7.0-py3-none-manylinux2014_x86_64.whl
+tensorboard-plugin-wit @ file:///home/builder/tkoch/workspace/tensorflow/tensorboard-plugin-wit_1658918494740/work/tensorboard_plugin_wit-1.8.1-py3-none-any.whl
+tensorflow @ file:///home/builder/ktietz/aggregate/tensorflow_recipes/ci_cpu/tensorflow-base_1614543347059/work/tensorflow_pkg/tensorflow-2.4.1-cp38-cp38-linux_x86_64.whl
+tensorflow-estimator @ file:///home/builder/adipietro/tf/tensorflow-estimator_1630508970172/work/tensorflow_estimator-2.6.0-py2.py3-none-any.whl
+termcolor @ file:///croot/termcolor_1668084651543/work
 toml==0.10.2
 tqdm==4.65.0
 typing_extensions==4.5.0
@@ -62,7 +103,10 @@ urllib3==2.0.2
 userpath==1.8.0
 wcwidth==0.2.6
 websockets==10.4
+Werkzeug @ file:///croot/werkzeug_1679489717957/work
+wrapt @ file:///tmp/abs_c335821b-6e43-4504-9816-b1a52d3d3e1eel6uae8l/croots/recipe/wrapt_1657814400492/work
 wsproto==1.2.0
 yarl==1.9.2
 yiri-mirai==0.2.7
 yiri-mirai-trigger==0.3.1
+zipp @ file:///croot/zipp_1672387121353/work

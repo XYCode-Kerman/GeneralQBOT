@@ -12,7 +12,6 @@ from utils.logger import get_gq_logger
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from mirai import *
-from typing_extensions import *
 from typing import *
 
 logger = get_gq_logger()

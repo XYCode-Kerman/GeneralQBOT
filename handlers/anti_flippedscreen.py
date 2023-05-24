@@ -8,13 +8,15 @@ import datetime
 import pymongo
 import mirai.exceptions
 import json
+from utils import logger
 from handlers import tms
-from configs import config
+from configs import config, feature
 from mirai import *
 from typing import *
 
 message_rate: Dict[datetime.datetime, Dict[int, int]] = {}
 mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
+log = logger.get_gq_logger()
 
 if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
     print(config.DATABASE_NAME, "doesn't exists, will create")
@@ -43,6 +45,7 @@ async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=No
             }
         }
     )
+
 
 async def anti_fc(event: GroupMessage, bot: Mirai):
     date = datetime.datetime.now()
@@ -84,7 +87,16 @@ async def anti_fc(event: GroupMessage, bot: Mirai):
         reason = '撤回+禁言！超过频率限制'
     
     # 文本审核
-    mod = tms.tencent_moderation(str(event.message_chain))
+    if feature.ENABLE_TMS_SERVICER.__len__() > 1:
+        log.warning('Do not use more than one TMS Servicer!')
+    
+    if feature.Features.TencentTMS in feature.ENABLE_TMS_SERVICER:
+        mod = tms.tencent_moderation(str(event.message_chain))
+    elif feature.Features.LocalAITMS in feature.ENABLE_TMS_SERVICER:
+        mod = tms.ai_moderation(str(event.message_chain))
+    else:
+        log.error('Cannot find any TMS Servicer!')
+    
     if not mod['bad']:
         blocked = True
         reason = json.loads(mod['resp'].to_json_string())
