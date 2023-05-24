@@ -87,6 +87,9 @@ async def anti_fc(event: GroupMessage, bot: Mirai):
         reason = '撤回+禁言！超过频率限制'
     
     # 文本审核
+    if feature.ENABLE_TMS_SERVICER.__len__() > 1:
+        log.warning('Do not use more than one TMS Servicer!')
+    
     if feature.Features.TencentTMS in feature.ENABLE_TMS_SERVICER:
         mod = tms.tencent_moderation(str(event.message_chain))
     elif feature.Features.LocalAITMS in feature.ENABLE_TMS_SERVICER:
