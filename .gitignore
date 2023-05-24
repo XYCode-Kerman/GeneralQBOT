@@ -123,7 +123,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-cookies.json
+# cookies.json
 
 logs/*
 *.log

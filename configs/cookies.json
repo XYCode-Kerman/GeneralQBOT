@@ -1,0 +1,14 @@
+[
+    {
+        "domain": "example.com",
+        "hostOnly": true,
+        "httpOnly": false,
+        "name": "testSameSite",
+        "path": "/",
+        "sameSite": "strict",
+        "secure": false,
+        "session": true,
+        "storeId": null,
+        "value": "someValue"
+    }
+]
