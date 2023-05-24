@@ -24,8 +24,8 @@ IF_OVER_MAX_MESSAGE_RATE_MUTE_SECONDS = 60
 TIMER_TRIGGER = CronTrigger(hour='*', minute=5)
 
 # Tencent Cloud
-QCLOUD_SECRET_ID = env['QCLOUD_SECRET_ID']
-QCLOUD_SECRET_KEY = env['QCLOUD_SECRET_KEY']
+QCLOUD_SECRET_ID = env.get('QCLOUD_SECRET_ID', 'UNKONW')
+QCLOUD_SECRET_KEY = env.get('QCLOUD_SECRET_KEY', 'UNKONW')
 
 # DATABASE
 DATABASE_TYPE = 'mongodb'   # Only have mongodb
@@ -40,4 +40,4 @@ ASYNC_SEND_CHAR = 50
 
 # Secret Things
 JWT_KEY = 'qwertyuiooasdfgthyjukwadfgfssdrfthgfggghfvyrbdekarghfyehausdefgaeruwhgahyefguhadgifhaghrurjghgruhfaeijowOIHASDFGA45GE78GA1ERG78GAE456EW8AWEE841789ger456789g456fds156'
-OPENAI_KEY = env['OPENAI_KEY']
+OPENAI_KEY = env.get('OPENAI_KEY', 'UNKNOW')
