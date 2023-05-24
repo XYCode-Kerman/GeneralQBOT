@@ -70,7 +70,6 @@ PyJWT==2.6.0
 pymongo==4.3.3
 pyOpenSSL==23.0.0
 PySocks==1.7.1
-pytest==7.3.1
 pytz==2023.3
 pytz-deprecation-shim==0.1.0.post0
 regex==2023.5.5
