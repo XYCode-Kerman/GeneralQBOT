@@ -28,20 +28,20 @@ jobs:
 
       - name: Build coverage file
         run: |
-          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=app tests/ | tee pytest-coverage.txt
+          pytest -s
 
-      - name: Pytest coverage comment
-        uses: MishaKav/pytest-coverage-comment@main
-        with:
-          github-token: ${{ github.token }}
-          pytest-coverage-path: ./pytest-coverage.txt
-          junitxml-path: ./pytest.xml
-          title: My Coverage Report Title
-          badge-title: My Badge Coverage Title
-          hide-badge: false
-          hide-report: false
-          create-new-comment: false
-          hide-comment: false
-          report-only-changed-files: false
-          remove-link-from-badge: false
-          unique-id-for-comment: python3.8
+      # - name: Pytest coverage comment
+      #   uses: MishaKav/pytest-coverage-comment@main
+      #   with:
+      #     github-token: ${{ github.token }}
+      #     pytest-coverage-path: ./pytest-coverage.txt
+      #     junitxml-path: ./pytest.xml
+      #     title: My Coverage Report Title
+      #     badge-title: My Badge Coverage Title
+      #     hide-badge: false
+      #     hide-report: false
+      #     create-new-comment: false
+      #     hide-comment: false
+      #     report-only-changed-files: false
+      #     remove-link-from-badge: false
+      #     unique-id-for-comment: python3.8
