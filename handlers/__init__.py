@@ -16,10 +16,15 @@ import numpy as np
 from math import *
 from numpy import *
 from typing import *
+from utils.logger import get_gq_logger
 from mirai import *
-from EdgeGPT import Chatbot, ConversationStyle
+from EdgeGPT import Chatbot, ConversationStyle, NotAllowedToAccess
 
-bing_bot = Chatbot(cookie_path=COOKIE_PATH)
+try:
+    bing_bot = Chatbot(cookie_path=COOKIE_PATH)
+except NotAllowedToAccess as e:
+    get_gq_logger().warning(f'Cookie of New Bing is not allowed to access, please check your cookie. \n{e}')
+
 count_prompt = 0
 
 __all__ = ['test', 'math_handle', 'hitokoto', 'picture', 'breset', 'bing']
