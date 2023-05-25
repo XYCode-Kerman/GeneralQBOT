@@ -1,6 +1,6 @@
 # This workflow will install dependencies, create coverage tests and run Pytest Coverage Comment
 # For more information see: https://github.com/MishaKav/pytest-coverage-comment/
-name: pytest-coverage-comment
+name: after_push
 
 on:
   pull_request:
@@ -9,8 +9,9 @@ on:
   push:
     branches:
       - '*'
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
