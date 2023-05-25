@@ -54,16 +54,16 @@ jobs:
     - name: Package Application
       uses: JackMcKew/pyinstaller-action-windows@main
       with:
-        path: src
+        path: ./
     
     - name: Package Application
       uses: JackMcKew/pyinstaller-action-linux@main
       with:
-        path: src
+        path: ./
 
     - uses: actions/upload-artifact@v2
       with:
         name: dev_AutoBuild_${{ github.sha }}(created by $${{ github.actor }})
         path: |
-          src/dist/windows
-          src/dist/linux
+          dist/windows
+          dist/linux
