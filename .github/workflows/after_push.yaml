@@ -45,19 +45,25 @@ jobs:
           flags: unittests
           name: GeneralQBOT
           verbose: true
+  build:
+    runs-on: ubuntu-latest
 
-      # - name: Pytest coverage comment
-      #   uses: MishaKav/pytest-coverage-comment@main
-      #   with:
-      #     github-token: ${{ github.token }}
-      #     pytest-coverage-path: ./pytest-coverage.txt
-      #     junitxml-path: ./pytest.xml
-      #     title: My Coverage Report Title
-      #     badge-title: My Badge Coverage Title
-      #     hide-badge: false
-      #     hide-report: false
-      #     create-new-comment: false
-      #     hide-comment: false
-      #     report-only-changed-files: false
-      #     remove-link-from-badge: false
-      #     unique-id-for-comment: python3.8
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Package Application
+      uses: JackMcKew/pyinstaller-action-windows@main
+      with:
+        path: src
+    
+    - name: Package Application
+      uses: JackMcKew/pyinstaller-action-linux@main
+      with:
+        path: src
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: dev_AutoBuild_${{ github.sha }}(created by $${{ github.actor }})
+        path: |
+          src/dist/windows
+          src/dist/linux
