@@ -45,25 +45,25 @@ jobs:
           flags: unittests
           name: GeneralQBOT
           verbose: true
-  build:
-    runs-on: ubuntu-latest
+  # build:
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
+  #   steps:
+  #   - uses: actions/checkout@v2
 
-    - name: Package Application
-      uses: JackMcKew/pyinstaller-action-windows@main
-      with:
-        path: ./
+  #   - name: Package Application
+  #     uses: JackMcKew/pyinstaller-action-windows@main
+  #     with:
+  #       path: ./
     
-    - name: Package Application
-      uses: JackMcKew/pyinstaller-action-linux@main
-      with:
-        path: ./
+  #   - name: Package Application
+  #     uses: JackMcKew/pyinstaller-action-linux@main
+  #     with:
+  #       path: ./
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: dev_AutoBuild_${{ github.sha }}(created by $${{ github.actor }})
-        path: |
-          dist/windows
-          dist/linux
+  #   - uses: actions/upload-artifact@v2
+  #     with:
+  #       name: dev_AutoBuild_${{ github.sha }}(created by $${{ github.actor }})
+  #       path: |
+  #         dist/windows
+  #         dist/linux
