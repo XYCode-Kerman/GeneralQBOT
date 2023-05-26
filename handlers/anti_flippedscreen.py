@@ -15,13 +15,16 @@ from mirai import *
 from typing import *
 
 message_rate: Dict[datetime.datetime, Dict[int, int]] = {}
-mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
 log = logger.get_gq_logger()
 
-if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
-    print(config.DATABASE_NAME, "doesn't exists, will create")
+try:
+    mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
+    if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
+        print(config.DATABASE_NAME, "doesn't exists, will create")
 
-db = mongo[config.DATABASE_NAME]
+    db = mongo[config.DATABASE_NAME]
+except:
+    db = {'In a test': 'In a test'}
 
 __all__ = ['save_message', 'anti_fc']
 
