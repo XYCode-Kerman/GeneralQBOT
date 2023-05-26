@@ -7,12 +7,13 @@
 import openai
 import configs.config
 import datetime
+from typing import List, Dict
 
 openai.api_key = configs.config.OPENAI_KEY
 
 __all__ = ['generate_by_gpt']
 
-def generate_by_gpt(tips: str, data: str):
+def generate_by_gpt(tips: str, data: str, other_message: List[Dict[str, str]] = []):
     data = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
         messages=[
@@ -27,7 +28,8 @@ def generate_by_gpt(tips: str, data: str):
             {
                 'role': 'user',
                 'content': data
-            }
+            },
+            *other_message
         ]
     )
     
