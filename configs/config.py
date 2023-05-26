@@ -1,4 +1,5 @@
 import os
+import datetime
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
@@ -41,3 +42,15 @@ ASYNC_SEND_CHAR = 50
 # Secret Things
 JWT_KEY = 'qwertyuiooasdfgthyjukwadfgfssdrfthgfggghfvyrbdekarghfyehausdefgaeruwhgahyefguhadgifhaghrurjghgruhfaeijowOIHASDFGA45GE78GA1ERG78GAE456EW8AWEE841789ger456789g456fds156'
 OPENAI_KEY = os.environ.get('OPENAI_KEY', 'UNKNOW')
+
+# Interview
+INTERVIEW_TIPS_FOR_GPT = [
+    {
+        'role': 'system',
+        'content': '一位用户将与你进行交流，您需要对他进行面试！'
+    },
+    {
+        'role': 'system',
+        'content': '你可以在聊天框中发送一条内容为".allow"的消息，表明他通过了面试。还可以发送一条内容为".not_allow"的消息，表明他没有通过面试。发送以上消息时，请不要附加任何内容，否则系统无法识别你的判断，并对面试者做出合适的提示！！！'
+    }
+]
