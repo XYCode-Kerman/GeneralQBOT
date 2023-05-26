@@ -7,6 +7,7 @@
 import shlex
 import handlers.tms
 import handlers.anti_flippedscreen
+import handlers.interview
 import handlers.join_group
 import handlers.integral
 import handlers.games.guess_numbers
@@ -98,6 +99,8 @@ if '__main__' == __name__:
                             await handlers.join_group.get_join_key(event, bot, command)
                     elif command[0] == 'integral':
                         await handlers.integral.integral(event, bot, command)
+                    elif command[0] == 'start_interview':
+                        await handlers.interview.start_a_interview(event, bot, command)
                     elif command[0] == 'game':
                         if command[1] == 'guess_numbers':
                             await handlers.games.guess_numbers.guess_numbers(event, bot, command)
@@ -106,9 +109,11 @@ if '__main__' == __name__:
         except Exception as e:
             exc = traceback.format_exc()
             
-            content = handlers.cgpt.generate_by_gpt('以下是一个Python语言的报错，请使用幽默且通俗易懂提示用户这个错误。要求表述完整，并为产生这个错误表示深深的歉意，不超过50字', exc)
+            content = await handlers.cgpt.generate_by_gpt('以下是一个Python语言的报错，请使用幽默且通俗易懂提示用户这个错误。要求表述完整，并为产生这个错误表示深深的歉意，不超过50字', exc)
             
             await bot.send(event, '[趣味日志] ' + content)
+            
+            logger.error(exc)
 
     @bot.on(MemberJoinRequestEvent)
     async def member_join_request(event: MemberJoinRequestEvent):
@@ -212,8 +217,6 @@ if '__main__' == __name__:
         for group in config.GROUP:
             await bot.send_group_message(group, '[趣味日志] ' + content)
             await bot.send_group_message(group, f'[免责声明] 本机器人所有的 [定时提醒] [趣味日志] 均由 OpenAI 公司的 gpt-3.5-turbo 模型生成，本人不对其负有任何责任')
-        
-        await timer()
         
         # pixiv_listener = handlers.pixiv.listener.PixivListener('tag', 'test', 'girl', CronTrigger(minute='*', second=30), scheduler, bot)
         await start_listeners()
