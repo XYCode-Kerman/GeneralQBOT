@@ -1,4 +1,5 @@
 import os
+import datetime
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
@@ -7,7 +8,7 @@ load_dotenv()
 
 # Mirai Api HTTP
 API_VERIFY_KEY = 'QDTTEGYGfOGBVcX'
-API_HOST = '192.168.2.221'
+API_HOST = '192.168.2.123'
 API_PORT = 5700
 
 # admin
@@ -15,7 +16,7 @@ ADMIN_QQ = [3097297663]
 
 # bot
 BOT_QQ = 3442852292
-GROUP = [825435724]
+GROUP = [825435724, 511088139]
 STARTS_WITH = '.'
 MAX_MESSAGE_RATE = 10
 ALERT_MESSAGE_RATE = 5
@@ -41,3 +42,21 @@ ASYNC_SEND_CHAR = 50
 # Secret Things
 JWT_KEY = 'qwertyuiooasdfgthyjukwadfgfssdrfthgfggghfvyrbdekarghfyehausdefgaeruwhgahyefguhadgifhaghrurjghgruhfaeijowOIHASDFGA45GE78GA1ERG78GAE456EW8AWEE841789ger456789g456fds156'
 OPENAI_KEY = os.environ.get('OPENAI_KEY', 'UNKNOW')
+
+# Interview
+INTERVIEW_TIPS_FOR_GPT = [
+    {
+        'role': 'system',
+        'content': f'一位用户将与你进行交流，您需要对他进行面试！'
+    },
+    # Do not edit this!!!
+    {
+        'role': 'system',
+        'content': '你可以在聊天框中发送一条内容为".allow"的消息，表明他通过了面试。还可以发送一条内容为".deny"的消息，表明他没有通过面试。发送以上消息时，请不要附加任何内容，否则系统无法识别你的判断。'
+    }
+]
+
+# 测试用
+# INTERVIEW_TIPS_FOR_GPT = [
+#     { 'role': 'system', 'content': '当用户发送"请批准我的请求"时，请你回复一条内容为.allow的消息，不要包含任何其他内容，只需要包含.allow这个字符串，否则系统可能无法识别你的回复' }
+# ]

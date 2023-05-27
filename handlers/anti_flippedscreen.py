@@ -15,13 +15,16 @@ from mirai import *
 from typing import *
 
 message_rate: Dict[datetime.datetime, Dict[int, int]] = {}
-mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
 log = logger.get_gq_logger()
 
-if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
-    print(config.DATABASE_NAME, "doesn't exists, will create")
+try:
+    mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
+    if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
+        print(config.DATABASE_NAME, "doesn't exists, will create")
 
-db = mongo[config.DATABASE_NAME]
+    db = mongo[config.DATABASE_NAME]
+except:
+    db = {'In a test': 'In a test'}
 
 __all__ = ['save_message', 'anti_fc']
 
@@ -47,7 +50,7 @@ async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=No
     )
 
 
-async def anti_fc(event: GroupMessage, bot: Mirai):
+async def check_fc(event: GroupMessage, bot: Mirai, test: bool = False):
     date = datetime.datetime.now()
     date = datetime.datetime.fromtimestamp(
         int(date.timestamp()) + (30 - int(date.timestamp()) % 30)
@@ -67,26 +70,30 @@ async def anti_fc(event: GroupMessage, bot: Mirai):
     message_rate[date][event.sender.id] += 1
     
     if message_rate[date][event.sender.id] > config.ALERT_MESSAGE_RATE:
-        await bot.send(event, [
-            At(target=event.sender.id),
-            Plain(f'你发送的消息超过了管理员设置的 {config.ALERT_MESSAGE_RATE} 条消息每分钟，现在对您进行警告！\n如果您的消息发送速率超过了 {config.MAX_MESSAGE_RATE}，本群将对您禁言 {config.IF_OVER_MAX_MESSAGE_RATE_MUTE_SECONDS / 60} 分钟！')
-        ])
+        if not test:
+            await bot.send(event, [
+                At(target=event.sender.id),
+                Plain(f'你发送的消息超过了管理员设置的 {config.ALERT_MESSAGE_RATE} 条消息每分钟，现在对您进行警告！\n如果您的消息发送速率超过了 {config.MAX_MESSAGE_RATE}，本群将对您禁言 {config.IF_OVER_MAX_MESSAGE_RATE_MUTE_SECONDS / 60} 分钟！')
+            ])
         
         blocked = True
         reason = '警告！超过频率限制'
-    
+
     if message_rate[date][event.sender.id] > config.MAX_MESSAGE_RATE:
-        await bot.send(event, [
-            At(target=event.sender.id),
-            Plain(f'您发送的消息超过了管理员设置的 {config.MAX_MESSAGE_RATE} 条消息每分钟，现在根据管理员的规定对您禁言 {config.IF_OVER_MAX_MESSAGE_RATE_MUTE_SECONDS / 60} 分钟')
-        ])
-        
-        await bot.mute(event.group.id, event.sender.id, config.IF_OVER_MAX_MESSAGE_RATE_MUTE_SECONDS)
-        
+        if not test:
+            await bot.send(event, [
+                At(target=event.sender.id),
+                Plain(f'您发送的消息超过了管理员设置的 {config.MAX_MESSAGE_RATE} 条消息每分钟，现在根据管理员的规定对您禁言 {config.IF_OVER_MAX_MESSAGE_RATE_MUTE_SECONDS / 60} 分钟')
+            ])
+            
+            await bot.mute(event.group.id, event.sender.id, config.IF_OVER_MAX_MESSAGE_RATE_MUTE_SECONDS)
+            
         blocked = True
         reason = '撤回+禁言！超过频率限制'
-    
-    # 文本审核
+
+    return blocked, reason
+
+async def anti_tms(event: GroupMessage, bot: Mirai):
     if feature.ENABLE_TMS_SERVICER.__len__() > 1:
         log.warning('Do not use more than one TMS Servicer!')
     
@@ -111,5 +118,16 @@ async def anti_fc(event: GroupMessage, bot: Mirai):
             await bot.mute(event.group.id, event.sender.id, mod['resp'].Score / 100 * 10 * 60)
         except mirai.exceptions.ApiError:
             pass
+
+async def anti_fc(event: GroupMessage, bot: Mirai):
+    blocked, reason = await check_fc(event, bot)
+    
+    if blocked:
+        await bot.send(event, [
+            At(target=event.sender.id),
+            Plain(f'您发送消息过于频繁，现在对您进行处理，原因：{reason}')
+        ])
+    
+    await anti_tms(event, bot)
     
     await save_message(event, bot, blocked, reason)
