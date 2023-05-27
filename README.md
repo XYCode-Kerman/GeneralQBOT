@@ -1,8 +1,14 @@
 # 通用QQ机器人
 
-## 项目说明
+On master: ![](https://img.shields.io/codecov/c/gh/XYCode-Kerman/GeneralQBOT?token=8ZA3QCOXRY&style=for-the-badge)  On develop![](https://img.shields.io/codecov/c/gh/XYCode-Kerman/GeneralQBOT/develop?token=8ZA3QCOXRY&style=for-the-badge)
+
+![](https://img.shields.io/github/license/XYCode-Kerman/GeneralQBOT?style=for-the-badge) ![](https://img.shields.io/github/repo-size/XYCode-Kerman/GeneralQBOT?style=for-the-badge) ![](https://img.shields.io/static/v1?label=Python&message=3.8&style=for-the-badge&color=blue)
+
+## 说明
 
 本项目旨在建立一个通用的QQ机器人，方便各群群主对群聊进行管理。
+
+内置多种功能，包括但不限于**游戏**、**自动面试**、**购买邀请码入群**，**积分系统**等。详情请见 [功能](#功能) 章节。
 
 ## 架构
 
@@ -57,3 +63,23 @@
 ### 注意事项
 
 所有向main的提交都应该是Pull Requests！不要强制推送！！！
+
+### 许可证
+
+本项目遵循 **AGPL-3.0** 许可证。
+
+> 请注意！AGPL-3.0 许可证是一个**传染性**许可证，如果您使用了本项目并修改了它的代码（**部署本项目不认为是修改源代码**），您必须**公开**您修改后的源代码。
+
+AGPL-3.0许可证允许人们做以下事情：
+
+1. 使用：您可以自由地使用AGPL-3.0许可证下的软件，无论是个人使用还是商业使用。
+2. 修改：您可以对软件进行修改和定制，以满足您的特定需求。
+3. 分发：您可以将软件分发给他人，无论是以二进制形式还是源代码形式。
+4. 共享：您必须共享任何使用AGPL-3.0许可证软件的修改或派生作品的源代码，以便其他人可以自由访问、修改和分发这些变更。
+5. 扩展：您可以使用AGPL-3.0许可证的软件作为基础，构建和发布自己的应用程序或服务。
+
+AGPL-3.0许可证不允许人们做以下事情：
+
+1. 专利授权限制：AGPL-3.0许可证禁止将该软件的使用与任何专利许可或授权相关联，以保护软件的自由性。
+2. 版权声明修改：您不能修改或移除AGPL-3.0许可证的版权声明和许可证条款。
+3. 私有化：如果您使用AGPL-3.0许可证的软件来构建一个网络服务或应用程序，您不能将其私有化，而是必须在用户访问时提供源代码，并使其可自由使用、修改和分发。
