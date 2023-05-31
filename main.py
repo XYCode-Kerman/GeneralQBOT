@@ -203,21 +203,22 @@ if '__main__' == __name__:
 
     @bot.on(Startup)
     async def startup(event: Startup):
-        response = openai.ChatCompletion.create(
-            model='gpt-3.5-turbo',
-            temperature=1,
-            messages=[
-                { 'role': 'system', 'content': f'现在是 20{datetime.datetime.now().strftime("%y-%m-%d %H:%M:%S")}' },
-                { 'role': 'user', 'content': '写一句不超过 25 字的话，你将作为本群的机器人，使用有创意的语言，提醒用户你已经上线' }
-            ]
-        )
-        
-        content = response.choices[0].message["content"]
-        
-        for group in config.GROUP:
-            await bot.send_group_message(group, '[趣味日志] ' + content)
-            await bot.send_group_message(group, f'[免责声明] 本机器人所有的 [定时提醒] [趣味日志] 均由 OpenAI 公司的 gpt-3.5-turbo 模型生成，本人不对其负有任何责任')
-        
+        if feature.Features.Startup_Tips in feature.ENABLED_FEATURE:
+            response = openai.ChatCompletion.create(
+                model='gpt-3.5-turbo',
+                temperature=1,
+                messages=[
+                    { 'role': 'system', 'content': f'现在是 20{datetime.datetime.now().strftime("%y-%m-%d %H:%M:%S")}' },
+                    { 'role': 'user', 'content': '写一句不超过 25 字的话，你将作为本群的机器人，使用有创意的语言，提醒用户你已经上线' }
+                ]
+            )
+            
+            content = response.choices[0].message["content"]
+            
+            for group in config.GROUP:
+                await bot.send_group_message(group, '[趣味日志] ' + content)
+                await bot.send_group_message(group, f'[免责声明] 本机器人所有的 [定时提醒] [趣味日志] 均由 OpenAI 公司的 gpt-3.5-turbo 模型生成，本人不对其负有任何责任')
+            
         # pixiv_listener = handlers.pixiv.listener.PixivListener('tag', 'test', 'girl', CronTrigger(minute='*', second=30), scheduler, bot)
         await start_listeners()
         
