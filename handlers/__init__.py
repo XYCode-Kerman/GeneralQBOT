@@ -22,7 +22,7 @@ from EdgeGPT import Chatbot, ConversationStyle, NotAllowedToAccess
 
 try:
     bing_bot = Chatbot(cookie_path=COOKIE_PATH)
-except NotAllowedToAccess as e:
+except Exception as e:
     get_gq_logger().warning(f'Cookie of New Bing is not allowed to access, please check your cookie. \n{e}')
 
 count_prompt = 0

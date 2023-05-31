@@ -23,8 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --no-dependencies flake8 pytest coverage pytest-cov
-          pip install --no-dependencies -r requirements.txt
+          pip install --no-dependencies poetry
+          poetry install
 
       - name: Build coverage file
         run: |
