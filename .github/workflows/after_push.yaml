@@ -25,6 +25,7 @@ jobs:
         run: |
           pip install poetry
           poetry install
+          pip install pytest
 
       - name: Build coverage file
         run: |
