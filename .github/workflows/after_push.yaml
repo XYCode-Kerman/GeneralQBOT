@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --no-dependencies poetry
+          pip install poetry
           poetry install
 
       - name: Build coverage file
