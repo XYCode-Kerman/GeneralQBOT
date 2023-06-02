@@ -24,9 +24,9 @@ jobs:
       - name: Build coverage file
         run: |
           pip install poetry
+          poetry env use 3.8
           poetry install
           poetry install --with dev
-          pip install pytest pytest-cov anyio pytest-asyncio pytest-trio pytest-twisted twisted
           python -m pytest --cov=./ --cov-report=xml
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
