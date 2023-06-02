@@ -15,6 +15,7 @@ from typing import List, Dict
 
 logger = utils.logger.get_gq_logger()
 openai.api_key = configs.config.OPENAI_KEY
+openai.api_base = configs.config.OPENAI_API_BASE
 
 __all__ = ['generate_by_gpt']
 

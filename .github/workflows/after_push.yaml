@@ -32,9 +32,6 @@ jobs:
         id: cache
         with:
           path: ~/.virtualenvs
-          key: poetry-$
-          restore-keys: |
-            poetry-$
       
       - name: Install Dependencies using Poetry
         run: poetry install

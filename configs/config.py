@@ -42,6 +42,8 @@ ASYNC_SEND_CHAR = 50
 # Secret Things
 JWT_KEY = 'qwertyuiooasdfgthyjukwadfgfssdrfthgfggghfvyrbdekarghfyehausdefgaeruwhgahyefguhadgifhaghrurjghgruhfaeijowOIHASDFGA45GE78GA1ERG78GAE456EW8AWEE841789ger456789g456fds156'
 OPENAI_KEY = os.environ.get('OPENAI_KEY', 'UNKNOW')
+# OPENAI_BASE = 'https://api.openai.com/v1'  # 官方API
+OPENAI_API_BASE = 'http://127.0.0.1:8080/v1'  # 私人API，搭建方法见 https://github.com/acheong08/ChatGPT-to-API
 
 # Interview
 INTERVIEW_TIPS_FOR_GPT = [
