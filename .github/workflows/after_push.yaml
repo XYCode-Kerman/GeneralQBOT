@@ -26,7 +26,7 @@ jobs:
           pip install poetry
           poetry install
           poetry install --with dev
-          pip install pytest
+          pip install pytest pytest-cov anyio pytest-asyncio pytest-trio pytest-twisted twisted
 
       - name: Build coverage file
         run: |
