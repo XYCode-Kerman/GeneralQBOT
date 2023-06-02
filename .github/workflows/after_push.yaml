@@ -25,6 +25,8 @@ jobs:
         run: |
           pip install poetry
           poetry install
+          poetry install --with dev
+          pip install test
 
       - name: Build coverage file
         run: |
