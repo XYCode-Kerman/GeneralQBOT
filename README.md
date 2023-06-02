@@ -51,10 +51,61 @@ On master: ![](https://img.shields.io/codecov/c/gh/XYCode-Kerman/GeneralQBOT?tok
   - [x] 根据邀请码判断能否入群
   - [ ] 根据邀请人判断能否入群（Yiri Mirai 在 pypi 上的版本暂不支持该功能，请使用 Github 上的 master 分支）
 - [x] 基于 ChatGPT 的自动面试（针对需要一定知识的游戏交流群和其他需要面试的场景）
+- [x] 虚拟女友/男友
 
 ## 使用
 
-参见我们的 [Wiki](https://github.com/XYCode-Kerman/GeneralQBOT/wiki)。
+## For Users
+
+### 你需要的
+
+1. 一颗聪明的脑袋（~~大头儿子~~）
+2. 一种调用OpenAI Api的方式（当你启用GPT相关功能时）（~~现在好像没有彻底不使用OpenAI API的设置欸，建议自己改代码~~）
+   1. 官方API服务（也许会拥有更多功能，但是收费）
+   2. 自建API服务（功能等同于网页版，但是免费）
+      1. [将网页版ChatGPT用作OpenAI Api](https://github.com/acheong08/ChatGPT-to-API)，支持绕过Cloudflare防护
+   3. 梯子自备
+3. 愿意承受一定的风险（~~指一觉醒来，房子归**OpenAI**了~~）
+4. 至少有初中生的英语水平（Google Translate 欢迎您）
+5. 一定的计算机知识
+6. 一颗愿意折腾的心
+7. 一台可以长期保证开机的电脑，用于挂QQ机器人
+
+### 安装
+
+```bash
+git clone https://github.com/XYCode-Kerman/GeneralQBOT.git  # 克隆本仓库
+```
+
+~~~bash
+# 如果你希望使用开发版
+git clone -b develop https://github.com/XYCode-Kerman/GeneralQBOT.git
+~~~
+
+```bash
+# 更新版本
+git checkout origin/master  # 正式版
+git checkout origin/develop # 开发版
+```
+
+> 我们欢迎您向我们提起**Issue**，以**解决Bug**或者**新增功能**。
+
+如果可能，请尽量使用[Releases](https://github.com/XYCode-Kerman/GeneralQBOT/releases)版本。
+
+### 配置
+
+本项目的配置项存放在两处，`configs/config.py`和`.env`。
+
+|        文件         |            内容            |
+| :-----------------: | :------------------------: |
+| `configs/config.py` |          常规配置          |
+|       `.env`        | 机密配置（例如 Api key等） |
+
+
+
+## For Developers
+
+参见我们的 [Wiki](https://github.com/XYCode-Kerman/GeneralQBOT/wiki)（请注意其最后编辑时间，部分内容可能已经过时）。
 
 ## 参与开发![Star History Chart](https://api.star-history.com/svg?repos=XYCode-Kerman/GeneralQBOT&type=Timeline)
 
