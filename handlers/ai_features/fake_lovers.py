@@ -2,11 +2,15 @@ import asyncio
 import sys
 sys.path.append('./')
 import hashlib
+from mirai_extensions.trigger import InterruptControl, FriendMessageFilter
+from mirai import Mirai, FriendMessage
 from enum import Enum, auto
 from typing import Literal, List
 from handlers.cgpt import generate_by_gpt_for_interview
 from utils.logger import get_gq_logger
 from utils.database import get_col
+import recognizers_text
+import recognizers_number_with_unit
 
 logger = get_gq_logger()
 
@@ -157,7 +161,77 @@ class Lover(object):
         logger.debug(f'Lover {name} loaded')
         
         return Lover(gender, character_settings, name, user_name)
+
+async def handler(event: FriendMessage, bot: Mirai, command: List[str]):
+    del command[0]
+    inc = InterruptControl(bot)
+    
+    @FriendMessageFilter(friend=event.sender.id)
+    def waiter(event_new: FriendMessage):
+        return str(event_new.message_chain)
+    
+    if command[0] == 'create':
+        await bot.send(event, '请输入ta的性别（男、女）：')
+        gender = await inc.wait(waiter, 60)
+        if '男' in gender:
+            gender = Gender.boyfriend
+        elif '女' in gender:
+            gender = Gender.girlfriend
+        else:
+            await bot.send(event, '你没有输入正确的性别！默认设定为女朋友')
+            gender = Gender.girlfriend
         
+        await bot.send(event, '请输入ta的年龄：')
+        age: str = str(await inc.wait(waiter, 60))
+        parsed = recognizers_number_with_unit.recognize_age(age, 'zh-cn')
+        
+        if parsed.__len__() < 1:
+            try:
+                age = int(age)
+            except ValueError:
+                await bot.send(event, '你没有输入正确的年龄！')
+                return
+        else:
+            age = int(parsed[0].resolution['value'])
+        
+        await bot.send(event, '请输入设定（句子）')
+        character_settings_sentences = str(await inc.wait(waiter, 60)).split(' ')
+        
+        await bot.send(event, '请输入设定（关键词）')
+        character_settings_keywords = str(await inc.wait(waiter, 60)).split(' ')
+        
+        await bot.send(event, '请输入他所在的地点')
+        city = await inc.wait(waiter, 60)
+        
+        await bot.send(event, '请输入他的职业')
+        job = await inc.wait(waiter, 60)
+        
+        character_settings = CharacterSettings(keywords=character_settings_keywords, sentences=character_settings_sentences, age=age, job=job, city=city)
+        
+        await bot.send(event, '请输入ta的名字：')
+        name: str = str(await inc.wait(waiter, 60))
+        user_name: str = event.sender.nickname
+        
+        await bot.send(
+            event,
+f"""
+请确认ta的设定：
+名字：{name}
+你的名字：{user_name}
+{character_settings}
+
+输入 .yes 确认，输入 .no 取消
+"""
+        )
+        
+        confirm = await inc.wait(waiter, 60)
+        if confirm == '.yes':
+            lover = Lover(gender, character_settings, name, user_name)
+            lover.save()
+            await bot.send(event, '已保存')
+        else:
+            await bot.send(event, '编辑器已退出，请重新编辑')
+
 if '__main__' == __name__:
     settings = CharacterSettings(['温柔', '善良', '友好', '可爱'], ['喜欢吃饭', '喜欢看电影', '喜欢看书'])
     gender = Gender.girlfriend
