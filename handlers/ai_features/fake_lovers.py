@@ -255,6 +255,7 @@ f"""
         # 开始聊天
         lover = Lover.load(lover, event.sender.nickname)
         chatting[event.sender.id] = lover
+        await bot.send(event, f'您接下来将和 {lover.name} 聊天，输入 .exit 退出聊天')
         while True:
             user_input = await inc.wait(waiter, 60)
             response = await lover.asking(user_input)
