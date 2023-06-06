@@ -6,7 +6,6 @@
 """
 import json
 import base64
-import tensorflow as tf
 import numpy as np
 import jieba
 from typing import *
@@ -17,7 +16,7 @@ from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 from tencentcloud.tms.v20201229 import tms_client, models
 
-tokenizer = tf.keras.preprocessing.text.tokenizer_from_json(open('./models/tms_token.json').read())
+tokenizer = None
 
 def texts_to_seq(texts: list) -> np.ndarray:
     seq = []
@@ -63,6 +62,9 @@ def tencent_moderation(text: str) -> Dict[str, Union[bool, models.TextModeration
     }
 
 def ai_moderation(text: str) -> Dict[str, Union[bool, models.TextModerationResponse]]:
+    import tensorflow as tf
+    if tokenizer is None:
+        tokenizer = tf.keras.preprocessing.text.tokenizer_from_json(open('./models/tms_token.json').read())
     model: tf.keras.models.Sequential = tf.keras.models.load_model('./models/tms.tf')
     
     result = model.predict(texts_to_seq([text]))
