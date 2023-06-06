@@ -62,6 +62,8 @@ def tencent_moderation(text: str) -> Dict[str, Union[bool, models.TextModeration
     }
 
 def ai_moderation(text: str) -> Dict[str, Union[bool, models.TextModerationResponse]]:
+    global tokenizer
+    
     import tensorflow as tf
     if tokenizer is None:
         tokenizer = tf.keras.preprocessing.text.tokenizer_from_json(open('./models/tms_token.json').read())
