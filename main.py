@@ -5,6 +5,8 @@
 * @lastModified  2023-05-15 22:37:07
 """
 import shlex
+import multiprocessing
+import manager
 import handlers.tms
 import handlers.anti_flippedscreen
 import handlers.interview
@@ -17,6 +19,7 @@ import handlers.pixiv.manager
 import handlers.ai_features.fake_lovers
 import datetime
 import jwt
+import threading
 from configs import config, feature
 from handlers import *
 from mirai import *
@@ -29,7 +32,7 @@ import pymongo
 import openai
 from utils.logger import get_gq_logger
 
-bot = Mirai(qq=config.BOT_QQ, adapter=WebSocketAdapter(
+bot = Mirai(qq=config.BOT_QQ, adapter=HTTPAdapter(
     verify_key=config.API_VERIFY_KEY, host=config.API_HOST, port=config.API_PORT))
 
 mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
@@ -234,6 +237,14 @@ if '__main__' == __name__:
 
         # pixiv_listener = handlers.pixiv.listener.PixivListener('tag', 'test', 'girl', CronTrigger(minute='*', second=30), scheduler, bot)
         await start_listeners()
+        
+        if feature.Features.RemoteManager in feature.ENABLED_FEATURE:
+            logger.info('Flask server starting')
+            flask = multiprocessing.Process(target=manager.app.run, daemon=True, args=(config.REMOTE_MANAGER_HOST, config.REMOTE_MANAGER_PORT, config.REMOTE_MANAGER_DEBUG, ))
+            flask.start()
+            logger.info('Flask server started')
+        else:
+            logger.info('Skip to start Flask server, because it is disabled')
 
         scheduler.start()
 
