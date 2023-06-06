@@ -62,3 +62,8 @@ INTERVIEW_TIPS_FOR_GPT = [
 # INTERVIEW_TIPS_FOR_GPT = [
 #     { 'role': 'system', 'content': '当用户发送"请批准我的请求"时，请你回复一条内容为.allow的消息，不要包含任何其他内容，只需要包含.allow这个字符串，否则系统可能无法识别你的回复' }
 # ]
+
+# 远程管理
+REMOTE_MANAGER_HOST = '0.0.0.0'
+REMOTE_MANAGER_PORT = 3533
+REMOTE_MANAGER_DEBUG = True
