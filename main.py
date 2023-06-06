@@ -32,7 +32,7 @@ import pymongo
 import openai
 from utils.logger import get_gq_logger
 
-bot = Mirai(qq=config.BOT_QQ, adapter=WebSocketAdapter(
+bot = Mirai(qq=config.BOT_QQ, adapter=HTTPAdapter(
     verify_key=config.API_VERIFY_KEY, host=config.API_HOST, port=config.API_PORT))
 
 mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
