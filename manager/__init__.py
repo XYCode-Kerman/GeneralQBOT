@@ -4,8 +4,10 @@ from datetime import timedelta, datetime
 from flask import Request, Response, request, make_response
 from configs import config
 from utils.token import verify_token
+from manager.messages import messages_blueprint
 
 app = flask.Flask(__name__)
+app.register_blueprint(messages_blueprint)
 
 
 @app.route('/ping')
@@ -40,10 +42,10 @@ async def auth_login():
                 'message': 'success',
                 'token': token
             })
-            
+
             resp.status_code = 200
             resp.set_cookie('token', token)
-            
+
             return resp
         else:
             return {
