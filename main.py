@@ -240,7 +240,7 @@ if '__main__' == __name__:
         
         if feature.Features.RemoteManager in feature.ENABLED_FEATURE:
             logger.info('Flask server starting')
-            flask = multiprocessing.Process(target=manager.app.run, daemon=True, args=(config.REMOTE_MANAGER_HOST, config.REMOTE_MANAGER_PORT, config.REMOTE_MANAGER_DEBUG, ))
+            flask = multiprocessing.Process(target=manager.run, daemon=True, args=(bot, config.REMOTE_MANAGER_HOST, config.REMOTE_MANAGER_PORT, config.REMOTE_MANAGER_DEBUG, ))
             flask.start()
             logger.info('Flask server started')
         else:
