@@ -1,23 +1,25 @@
+import recognizers_number_with_unit
+import recognizers_text
+from utils.database import get_col
+from utils.logger import get_gq_logger
+from handlers.cgpt import generate_by_gpt_for_interview
+from typing import Literal, List, Dict
+from enum import Enum, auto
+from mirai import Mirai, FriendMessage
+from mirai_extensions.trigger import InterruptControl, FriendMessageFilter
+import hashlib
 import asyncio
 import sys
 sys.path.append('./')
-import hashlib
-from mirai_extensions.trigger import InterruptControl, FriendMessageFilter
-from mirai import Mirai, FriendMessage
-from enum import Enum, auto
-from typing import Literal, List, Dict
-from handlers.cgpt import generate_by_gpt_for_interview
-from utils.logger import get_gq_logger
-from utils.database import get_col
-import recognizers_text
-import recognizers_number_with_unit
 
 logger = get_gq_logger()
 chatting: Dict[int, str] = {}
 
+
 class Gender(Enum):
     boyfriend = '男朋友'
     girlfriend = '女朋友'
+
 
 class CharacterSettings:
     def __init__(self, keywords: List[str], sentences: List[str], age: int = 18, job: str = '无职业', city: str = '上海') -> None:
@@ -26,13 +28,14 @@ class CharacterSettings:
         self.age = age
         self.job = job
         self.city = city
-    
+
     def __str__(self) -> str:
         return f"""人物设定：{" ".join(self.keywords)} 并且 {" ".join(self.sentences)}
 职业：{self.job}
 年龄：{self.age}
 所在城市：{self.city}
     """
+
 
 class Lover(object):
     def __init__(self, gender: Literal[Gender.girlfriend, Gender.boyfriend], character_settings: CharacterSettings, name: str, user_name: str) -> None:
@@ -58,7 +61,7 @@ class Lover(object):
                 'content': f'接下来我将与你玩一个角色扮演游戏，你扮演我的 {self.gender.value}，你的人物设定是：{self.character_settings}，你的名字是：{name}，我的名字是：{user_name}'
             }
         ]
-    
+
     async def asking(self, prompt: str):
         logger.debug(f'asking: {prompt}')
         self.history.append(
@@ -67,7 +70,7 @@ class Lover(object):
                 'content': prompt
             }
         )
-        
+
         response = await generate_by_gpt_for_interview(self.history)
 
         self.history.append(
@@ -76,7 +79,7 @@ class Lover(object):
                 'content': response
             }
         )
-        
+
         col = get_col('lovers')
         # 将本次对话的信息附加到数据库中
         col.update_one(
@@ -93,7 +96,7 @@ class Lover(object):
                 }
             }
         )
-        
+
         col.update_one(
             {
                 'name': self.name,
@@ -113,7 +116,7 @@ class Lover(object):
             return False
         elif '.ignore' in response or prompt == '.ignore':
             return await self.asking(prompt)
-        
+
         return response
 
     def __hash__(self) -> int:
@@ -140,9 +143,9 @@ class Lover(object):
             },
             upsert=True
         )
-        
+
         logger.debug(f'Lover {self.name} saved')
-    
+
     @staticmethod
     def load(name: str, user_name: str):
         col = get_col('lovers')
@@ -152,25 +155,27 @@ class Lover(object):
                 'user_name': user_name
             }
         )
-        
+
         gender = Gender._value2member_map_[data['gender']]
-        character_settings = CharacterSettings(keywords=data['character_settings']['keywords'], sentences=data['character_settings']['sentences'])
+        character_settings = CharacterSettings(
+            keywords=data['character_settings']['keywords'], sentences=data['character_settings']['sentences'])
         history = data['history']
         name = data['name']
         user_name = data['user_name']
 
         logger.debug(f'Lover {name} loaded')
-        
+
         return Lover(gender, character_settings, name, user_name)
+
 
 async def handler(event: FriendMessage, bot: Mirai, command: List[str]):
     del command[0]
     inc = InterruptControl(bot)
-    
+
     @FriendMessageFilter(friend=event.sender.id)
     def waiter(event_new: FriendMessage):
         return str(event_new.message_chain)
-    
+
     if command[0] == 'create':
         await bot.send(event, '请输入ta的性别（男、女）：')
         gender = await inc.wait(waiter, 60)
@@ -181,11 +186,11 @@ async def handler(event: FriendMessage, bot: Mirai, command: List[str]):
         else:
             await bot.send(event, '你没有输入正确的性别！默认设定为女朋友')
             gender = Gender.girlfriend
-        
+
         await bot.send(event, '请输入ta的年龄：')
         age: str = str(await inc.wait(waiter, 60))
         parsed = recognizers_number_with_unit.recognize_age(age, 'zh-cn')
-        
+
         if parsed.__len__() < 1:
             try:
                 age = int(age)
@@ -194,28 +199,29 @@ async def handler(event: FriendMessage, bot: Mirai, command: List[str]):
                 return
         else:
             age = int(parsed[0].resolution['value'])
-        
+
         await bot.send(event, '请输入设定（句子）')
         character_settings_sentences = str(await inc.wait(waiter, 60)).split(' ')
-        
+
         await bot.send(event, '请输入设定（关键词）')
         character_settings_keywords = str(await inc.wait(waiter, 60)).split(' ')
-        
+
         await bot.send(event, '请输入他所在的地点')
         city = await inc.wait(waiter, 60)
-        
+
         await bot.send(event, '请输入他的职业')
         job = await inc.wait(waiter, 60)
-        
-        character_settings = CharacterSettings(keywords=character_settings_keywords, sentences=character_settings_sentences, age=age, job=job, city=city)
-        
+
+        character_settings = CharacterSettings(
+            keywords=character_settings_keywords, sentences=character_settings_sentences, age=age, job=job, city=city)
+
         await bot.send(event, '请输入ta的名字：')
         name: str = str(await inc.wait(waiter, 60))
         user_name: str = event.sender.nickname
-        
+
         await bot.send(
             event,
-f"""
+            f"""
 请确认ta的设定：
 名字：{name}
 你的名字：{user_name}
@@ -224,7 +230,7 @@ f"""
 输入 .yes 确认，输入 .no 取消
 """
         )
-        
+
         confirm = await inc.wait(waiter, 60)
         if confirm == '.yes':
             lover = Lover(gender, character_settings, name, user_name)
@@ -234,7 +240,7 @@ f"""
             await bot.send(event, '编辑器已退出，请重新编辑')
     elif command[0] == 'activate':
         lovers_col = get_col('lovers')
-        
+
         await bot.send(event, '请选择你要聊天的对象：')
         lovers = list(lovers_col.find({'user_name': event.sender.nickname}))
         temp = []
@@ -242,16 +248,16 @@ f"""
             temp.append(f'{i + 1}. {lovers[i]["name"]}')
         await bot.send(event, '\n'.join(temp))
         del temp
-        
+
         await bot.send(event, '输入ta的名字')
-            
+
         lover = await inc.wait(waiter, 60)
 
         # 检测这个对象是否存在
         if lovers_col.find_one({'name': lover, 'user_name': event.sender.nickname}) is None:
             await bot.send(event, '你没有这个对象！')
             return
-        
+
         # 开始聊天
         lover = Lover.load(lover, event.sender.nickname)
         chatting[event.sender.id] = lover
@@ -259,16 +265,16 @@ f"""
         while True:
             user_input = await inc.wait(waiter, 60)
             response = await lover.asking(user_input)
-            
+
             if response is False:
                 await bot.send(event, '对方不想和你继续聊下去了')
                 break
-            
+
             if user_input == '.exit':
                 response = await lover.asking('再见')
                 await bot.send(event, response)
                 break
-            
+
             await bot.send(event, response)
 
 if '__main__' == __name__:
@@ -276,14 +282,14 @@ if '__main__' == __name__:
     gender = Gender.girlfriend
     lover = Lover(gender, settings, '无姓名', 'XYCode')
     loop = asyncio.get_event_loop()
-    
+
     lover.save()
     del lover
     lover = Lover.load('无姓名', 'XYCode')
-    
+
     while True:
         user = input('user: ')
-        
+
         get_future = asyncio.ensure_future(lover.asking(user))
         loop.run_until_complete(get_future)
         print(get_future.result())

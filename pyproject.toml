@@ -25,13 +25,13 @@ jieba = "^0.42.1"
 tencentcloud-sdk-python-tms = "3.0.885"
 tencentcloud-sdk-python-common = "3.0.885"
 openai = "^0.27.7"
-hypercorn = "^0.14.3"
 apscheduler = "^3.10.1"
 recognizers-text = "^1.0.2a2"
 recognizers-number-with-unit = "^1.0.0a1"
 emoji = "1.1.0"
 objprint = "^0.2.2"
 socksio = "^1.0.0"
+flask = {extras = ["async"], version = "^2.3.2"}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.3.1"
