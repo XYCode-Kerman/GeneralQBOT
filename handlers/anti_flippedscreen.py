@@ -106,7 +106,8 @@ async def anti_tms(event: GroupMessage, bot: Mirai):
     
     if not mod['bad']:
         blocked = True
-        reason = json.loads(mod['resp'].to_json_string())
+        # reason = json.loads(mod['resp'].to_json_string())
+        reason = None
         
         await bot.send(event, [
             Plain('您的聊天记录违反了本群规定，现已被撤回！\n'),
