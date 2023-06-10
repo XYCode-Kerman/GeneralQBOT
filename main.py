@@ -8,6 +8,7 @@ import shlex
 import multiprocessing
 import manager
 import handlers.tms
+import handlers.group_wordcloud
 import handlers.anti_flippedscreen
 import handlers.interview
 import handlers.join_group
@@ -111,6 +112,8 @@ if '__main__' == __name__:
                             await handlers.games.guess_numbers.guess_numbers(event, bot, command)
                     elif command[0] == 'pixiv':
                         await handlers.pixiv.manager.manager(event, bot, command)
+                    elif command[0] == 'wordcloud':
+                        await handlers.group_wordcloud.handle_message(event, bot, command)
         except Exception as e:
             exc = traceback.format_exc()
 
