@@ -240,9 +240,11 @@ if '__main__' == __name__:
         
         if feature.Features.RemoteManager in feature.ENABLED_FEATURE:
             logger.info('Flask server starting')
-            flask = multiprocessing.Process(target=manager.run, daemon=True, args=(bot, config.REMOTE_MANAGER_HOST, config.REMOTE_MANAGER_PORT, config.REMOTE_MANAGER_DEBUG, ))
-            flask.start()
-            logger.info('Flask server started')
+            logger.error('远程管理系统已被弃用')
+            logger.info('Skip to start flask server, because it is out of date')
+            # flask = multiprocessing.Process(target=manager.run, daemon=True, args=(bot, config.REMOTE_MANAGER_HOST, config.REMOTE_MANAGER_PORT, config.REMOTE_MANAGER_DEBUG, ))
+            # flask.start()
+            # logger.info('Flask server started')
         else:
             logger.info('Skip to start Flask server, because it is disabled')
 
