@@ -3,6 +3,7 @@ import datetime
 import base64
 import jieba
 import nltk
+from configs.config import STOP_WORDS
 from utils.database import get_col
 from utils.logger import get_gq_logger
 from mirai import Mirai, GroupMessage, Image, Plain
@@ -40,7 +41,7 @@ def gen_words(messages: List[str]) -> List[str]:
     
     for word in words:
         for little_word in word:
-            if little_word not in ['.', '@', '[', ']']:
+            if little_word not in ['.', '@', '[', ']'] and len(little_word) >= 2:
                 little_words.append(little_word)
     
     return little_words
@@ -53,7 +54,8 @@ def gen_wordcloud(group: int):
         1980,
         1080,
         min_font_size=4,
-        background_color='white'
+        background_color='white',
+        stopwords=STOP_WORDS
     )
     
     wc_image = wc.generate(seq_text).to_image()

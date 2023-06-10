@@ -1,5 +1,6 @@
 import os
 import datetime
+import pathlib
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
@@ -69,3 +70,6 @@ REMOTE_MANAGER_PORT = 3533
 REMOTE_MANAGER_DEBUG = True
 REMOTE_MANAGER_ADMIN_NAME = 'xycode'
 REMOTE_MANAGER_ADMIN_PASSWORD = '123456'
+
+# 其他
+STOP_WORDS = pathlib.Path('./resources/stop_words.txt').read_text(encoding='utf-8').split('\n')
