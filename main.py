@@ -98,15 +98,8 @@ if '__main__' == __name__:
                         await bing(event, bot, command)
                     elif command[0] == 'breset':
                         await breset(event, bot, command)
-                    elif command[0] == 'get_join_key':
-                        if event.sender.id not in config.ADMIN_QQ:
-                            await bot.send(event, '您无权使用！')
-                        else:
-                            await handlers.join_group.get_join_key(event, bot, command)
                     elif command[0] == 'integral':
                         await handlers.integral.integral(event, bot, command)
-                    elif command[0] == 'start_interview':
-                        await handlers.interview.start_a_interview(event, bot, command)
                     elif command[0] == 'game':
                         if command[1] == 'guess_numbers':
                             await handlers.games.guess_numbers.guess_numbers(event, bot, command)
@@ -114,12 +107,31 @@ if '__main__' == __name__:
                         await handlers.pixiv.manager.manager(event, bot, command)
                     elif command[0] == 'wordcloud':
                         await handlers.group_wordcloud.handle_message(event, bot, command)
+        
+                # 判断是否为管理员指令
+                if str(event.message_chain).startswith(config.ADMIN_COMMAND_STARTS_WITH):
+                    if event.sender.id in config.ADMIN_QQ:
+                        # 解析
+                        message = str(event.message_chain)[1:]
+                        print(message)
+                        command = shlex.split(message)
+                        
+                        if command[0] == 'start_interview':
+                            await handlers.interview.start_a_interview(event, bot, command)
+                        elif command[0] == 'get_join_key':
+                            await handlers.join_group.get_join_key(event, bot, command)
+                    else:
+                        await bot.send(event, '您无权使用！')
         except Exception as e:
             exc = traceback.format_exc()
 
-            content = await handlers.cgpt.generate_by_gpt('以下是一个Python语言的报错，请使用幽默且通俗易懂提示用户这个错误。要求表述完整，并为产生这个错误表示深深的歉意，不超过50字', exc)
+            if feature.Features.Fun_Log in feature.ENABLED_FEATURE:
+                content = await handlers.cgpt.generate_by_gpt('以下是一个Python语言的报错，请使用幽默且通俗易懂提示用户这个错误。要求表述完整，并为产生这个错误表示深深的歉意，不超过50字', exc)
 
-            await bot.send(event, '[趣味日志] ' + content)
+                await bot.send(event, '[趣味日志] ' + content)
+            
+            if feature.Features.Raw_Log in feature.ENABLED_FEATURE:
+                await bot.send(event, '[原始日志] ' + exc)
 
             logger.error(exc)
 
