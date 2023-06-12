@@ -5,20 +5,13 @@
 * @lastModified  2023-05-15 12:54:20
 """
 import datetime
-import pymongo
 import jwt
 import uuid
+from utils import database
 from mirai import *
 from mirai_extensions.trigger import InterruptControl, Filter, GroupMessageFilter, FriendMessageFilter
 from configs import config
 from typing import *
-
-mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
-
-if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
-    print(config.DATABASE_NAME, "doesn't exists, will create")
-
-db = mongo[config.DATABASE_NAME]
 
 __all__ = ['get_join_key']
 
@@ -57,7 +50,7 @@ async def get_join_key(event: Union[GroupMessage, FriendMessage], bot: Mirai, co
         exp_time: datetime.datetime = datetime.datetime.now() + datetime.timedelta(days=1)
         
         encoded_jwt = uuid.uuid4().__str__()
-        db['join_keys'].insert_one({
+        database.get_col('join_keys').insert_one({
             'target': target,
             'exp_time': exp_time,
             'key': encoded_jwt

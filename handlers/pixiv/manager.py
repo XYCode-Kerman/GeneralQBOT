@@ -5,20 +5,15 @@
 * @lastModified  2023-05-15 23:01:26
 """
 import datetime
-import pymongo
+from utils.database import get_col
 from utils.logger import get_gq_logger
 from configs import config
 from mirai import *
 from typing import *
 
-mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
 logger = get_gq_logger()
 
-if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
-    print(config.DATABASE_NAME, "doesn't exists, will create")
-
-db = mongo[config.DATABASE_NAME]
-listeners = db['listeners']
+listeners = get_col('listeners')
 
 def add_listener(bot: Mirai, command: List[str]):
     target = command[1]

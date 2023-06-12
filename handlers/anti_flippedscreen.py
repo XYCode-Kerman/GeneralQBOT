@@ -5,10 +5,9 @@
 * @lastModified  2023-05-15 12:53:43
 """
 import datetime
-import pymongo
 import mirai.exceptions
 import json
-from utils import logger
+from utils import logger, database
 from handlers import tms
 from configs import config, feature
 from mirai import *
@@ -17,19 +16,10 @@ from typing import *
 message_rate: Dict[datetime.datetime, Dict[int, int]] = {}
 log = logger.get_gq_logger()
 
-try:
-    mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
-    if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
-        print(config.DATABASE_NAME, "doesn't exists, will create")
-
-    db = mongo[config.DATABASE_NAME]
-except:
-    db = {'In a test': 'In a test'}
-
 __all__ = ['save_message', 'anti_fc']
 
 async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=None):
-    message = db['message']
+    message = database.get_col('message')
     message.insert_one(
         {
             'message': event.message_chain.__str__(),

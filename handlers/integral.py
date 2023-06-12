@@ -4,21 +4,14 @@
 * @date          1970-01-01 08:00:00
 * @lastModified  2023-05-15 12:51:36
 """
-import pymongo
 import configs.config as config
 import datetime
+from utils import database
 from mirai import *
 from typing import *
 
-mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
-
-if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
-    print(config.DATABASE_NAME, "doesn't exists, will create")
-
-db = mongo[config.DATABASE_NAME]
-
 async def get_integral(event: GroupMessage, bot: Mirai, command: List[str]):
-    userdata = db['userdata']
+    userdata = database.get_col('userdata')
     
     # get intergral data from userdata col, and return it
     data = userdata.find_one({

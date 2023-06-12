@@ -5,23 +5,16 @@
 * @lastModified  2023-05-15 12:52:15
 """
 import random
-import pymongo
 from configs import config
+from utils import database
 from mirai import *
 from mirai_extensions.trigger import GroupMessageFilter, FriendMessageFilter, Trigger, InterruptControl
 from typing import *
 
-mongo = pymongo.MongoClient(config.DATABASE_IP, config.DATABASE_PORT)
-
-if config.DATABASE_NAME not in [x['name'] for x in mongo.list_databases()]:
-    print(config.DATABASE_NAME, "doesn't exists, will create")
-
-db = mongo[config.DATABASE_NAME]
-
 __all__ = ['guess_numbers']
 
 def add_integral(integral: int, id: int):
-    userdata = db['userdata']
+    userdata = database.get_col('userdata')
     
     userdata.update_one(
         {
