@@ -7,7 +7,7 @@
 import datetime
 import mirai.exceptions
 import json
-from utils import logger, database
+from utils import logger, database, message_chain
 from handlers import tms
 from configs import config, feature
 from mirai import *
@@ -23,11 +23,10 @@ __all__ = ['save_message', 'anti_fc']
 async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=None):
     message = database.get_col('message')
     
-
-    
     message.insert_one(
         {
-            'message': message_chain_str,
+            'message': event.message_chain.__str__(),
+            'message_chain': message_chain.message_chain_to_list(event.message_chain),
             'sender': {
                 'id': event.sender.id,
                 'name': event.sender.member_name,
