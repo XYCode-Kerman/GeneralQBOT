@@ -9,7 +9,7 @@ load_dotenv()
 
 # Mirai Api HTTP
 API_VERIFY_KEY = 'QDTTEGYGfOGBVcX'
-API_HOST = '192.168.2.123'
+API_HOST = '192.168.2.221'
 API_PORT = 5700
 
 # admin
