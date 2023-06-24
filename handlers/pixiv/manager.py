@@ -5,10 +5,12 @@
 * @lastModified  2023-05-15 23:01:26
 """
 import datetime
+from handlers.pixiv.searcher import PixivSearcher
 from utils.database import get_col
 from utils.logger import get_gq_logger
 from configs import config
 from mirai import *
+from mirai_extensions.trigger import GroupMessageFilter
 from typing import *
 
 logger = get_gq_logger()
@@ -81,10 +83,10 @@ def list_listener(bot: Mirai, command: List[str]):
     return list(listeners.find({}))
 
 async def manager(event: GroupMessage, bot: Mirai, command: List[str]):
-    if len(command) < 2:
-        await bot.send(event, '参数不足')
+    # if len(command) < 2:
+    #     await bot.send(event, '参数不足')
         
-        return False
+    #     return False
     
     del command[0]
     
@@ -113,6 +115,31 @@ async def manager(event: GroupMessage, bot: Mirai, command: List[str]):
         string = '\n'.join(strings)
         
         await bot.send(event, string)
+    # 对应P站搜索功能
+    elif command[0] == 'search':
+        searcher = PixivSearcher(event, bot, list(range(100)))
+        await bot.send(event, '请输入你需要搜索的tag：')
+
+        @GroupMessageFilter(group_member=event.sender)
+        def waiter(event_new: GroupMessage):
+            return str(event_new.message_chain)
+        
+        tag = await searcher.inc.wait(waiter, 60)
+        
+        if tag is None:
+            await bot.send(event, '输入超时')
+        else:
+            aliases = await searcher.get_aliases(tag)
+            await bot.send(event, aliases)
+            await bot.send(event, '我们建议您在候选词中选一个，并且建议通过复制的形式输入，否则有可能导致搜索不到结果（P站祖传异能）')
+        
+        tag = await searcher.inc.wait(waiter, 60)
+        
+        if tag is None:
+            await bot.send(event, '输入超时')
+        else:
+            result = await searcher.search_by_word(tag)
+            await bot.send(event, result)
     else:
         logger.error(f"Unknown command {command[0]}")
         await bot.send(event, '未知命令')

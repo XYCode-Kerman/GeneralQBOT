@@ -66,6 +66,6 @@ class PixivSearcher(object):
         strings.append('候选词:')
         
         for tag in data:
-            strings.append(f'{data["tag_name"]}  引用数量：{data["access_count"]}')
+            strings.append(f'{tag["tag_name"]}  引用数量：{tag["access_count"]}')
         
         return '\n'.join(strings)
