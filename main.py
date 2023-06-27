@@ -86,26 +86,26 @@ if '__main__' == __name__:
                     print(message)
                     command = shlex.split(message)
 
-                    if command[0] == 'test':
+                    if command[0] == 'test' or command[0] == '测试':
                         await test(event, bot, command)
-                    elif command[0] == 'math':
+                    elif command[0] == 'math' or command[0] == '数学':
                         await math_handle(event, bot, command)
-                    elif command[0] == 'hitokoto':
+                    elif command[0] == 'hitokoto' or command[0] == '一言':
                         await hitokoto(event, bot, command)
-                    elif command[0] == 'picture':
+                    elif command[0] == 'picture' or command[0] == '图片':
                         await picture(event, bot, command)
-                    elif command[0] == 'bing':
+                    elif command[0] == 'bing' or command[0] == '必应':
                         await bing(event, bot, command)
-                    elif command[0] == 'breset':
+                    elif command[0] == 'breset' or command[0] == '重置':
                         await breset(event, bot, command)
-                    elif command[0] == 'integral':
+                    elif command[0] == 'integral' or command[0] == '积分':
                         await handlers.integral.integral(event, bot, command)
-                    elif command[0] == 'game':
-                        if command[1] == 'guess_numbers':
+                    elif command[0] == 'game' or command[0] == '游戏':
+                        if command[1] == 'guess_numbers' or command[1] == '猜数字':
                             await handlers.games.guess_numbers.guess_numbers(event, bot, command)
-                    elif command[0] == 'pixiv':
+                    elif command[0] == 'pixiv' or command[0] == 'P站':
                         await handlers.pixiv.manager.manager(event, bot, command)
-                    elif command[0] == 'wordcloud':
+                    elif command[0] == 'wordcloud' or command[0] == '词云':
                         await handlers.group_wordcloud.handle_message(event, bot, command)
         
                 # 判断是否为管理员指令
