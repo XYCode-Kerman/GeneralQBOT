@@ -124,7 +124,7 @@ async def integral(event: GroupMessage, bot: Mirai, command: List[str]):
                 target: int = int(command[1])
                 display: str = f'未知：{target}'
             
-            score = int(command[2])
+            score = int(command[3])
             
             # 减去对应的积分
             userdata.update_one({
