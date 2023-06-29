@@ -1,5 +1,6 @@
 import os
 import datetime
+import pathlib
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from dotenv import load_dotenv
@@ -8,14 +9,15 @@ load_dotenv()
 
 # Mirai Api HTTP
 API_VERIFY_KEY = 'QDTTEGYGfOGBVcX'
-API_HOST = '192.168.2.123'
+API_HOST = '192.168.2.221'
 API_PORT = 5700
 
 # admin
 ADMIN_QQ = [3097297663]
+ADMIN_COMMAND_STARTS_WITH = '~'
 
 # bot
-BOT_QQ = 3442852292
+BOT_QQ = 258973179
 GROUP = [825435724, 511088139, 558913271]
 STARTS_WITH = '.'
 MAX_MESSAGE_RATE = 10
@@ -43,7 +45,7 @@ ASYNC_SEND_CHAR = 50
 JWT_KEY = 'qwertyuiooasdfgthyjukwadfgfssdrfthgfggghfvyrbdekarghfyehausdefgaeruwhgahyefguhadgifhaghrurjghgruhfaeijowOIHASDFGA45GE78GA1ERG78GAE456EW8AWEE841789ger456789g456fds156'
 OPENAI_KEY = os.environ.get('OPENAI_KEY', 'UNKNOW')
 # OPENAI_BASE = 'https://api.openai.com/v1'  # 官方API
-OPENAI_API_BASE = 'http://127.0.0.1:8080/v1'  # 私人API，搭建方法见 https://github.com/acheong08/ChatGPT-to-API
+OPENAI_API_BASE = 'http://192.168.2.221:7894/v1'  # 私人API，搭建方法见 https://github.com/acheong08/ChatGPT-to-API
 
 # Interview
 INTERVIEW_TIPS_FOR_GPT = [
@@ -69,3 +71,6 @@ REMOTE_MANAGER_PORT = 3533
 REMOTE_MANAGER_DEBUG = True
 REMOTE_MANAGER_ADMIN_NAME = 'xycode'
 REMOTE_MANAGER_ADMIN_PASSWORD = '123456'
+
+# 其他
+STOP_WORDS = pathlib.Path('./resources/stop_words.txt').read_text(encoding='utf-8').split('\n')

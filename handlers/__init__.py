@@ -6,13 +6,16 @@
 """
 import sys
 import math
+import datetime
 import base64
 import requests
 import pathlib
 from configs.config import *
 import configs.pictures as pic
+import configs.feature as feature
 import random as rd
 import numpy as np
+import platform
 from math import *
 from numpy import *
 from typing import *
@@ -30,7 +33,40 @@ count_prompt = 0
 __all__ = ['test', 'math_handle', 'hitokoto', 'picture', 'breset', 'bing']
 
 async def test(event: Union[GroupMessage, FriendMessage], bot: Mirai, command: List[str]):
+    enabled_feature_str = []
+    
+    for x in feature.ENABLED_FEATURE:
+        enabled_feature_str.append(f'{x.name}: {x.value}')
+    
+    for x in feature.ENABLE_TMS_SERVICER:
+        enabled_feature_str.append(f'{x.name}: {x.value}')
+    
+    enabled_feature_str = '\n'.join(enabled_feature_str)
+    
     await bot.send(event, [Plain('这是一个测试，出现这条消息，说明机器人已经在工作了！')])
+    await bot.send(event, [
+        Plain('执行命令者信息：\n'),
+        Plain(f'QQ号：{event.sender.id}\n'),
+        Plain(f'昵称：{event.sender.get_name()}\n'),
+        Plain(f'群号：{event.sender.group.id}\n'),
+        Plain(f'是否为管理员：{event.sender.permission}\n'),
+        Plain(f'是否有权管理机器人：{event.sender.id in ADMIN_QQ}\n'),
+        Image(url=event.sender.get_avatar_url()),
+        
+        Plain('\n'),
+        Plain('\n'),
+        
+        Plain('机器人信息：\n'),
+        Plain(f'服务器时间：{datetime.datetime.now()}\n'),
+        Plain(f'服务端环境：{platform.platform()}\n'),
+        Plain(f'已启用的功能：\n{enabled_feature_str}')
+    ])
+    
+    try:
+        if command[1] == 'raise':
+            raise Exception('此异常为用户人为触发！仅用于测试！')
+    except IndexError as e:
+        pass
 
 async def math_handle(event: GroupMessage, bot: Mirai, command: List[str]):
     del command[0]
