@@ -16,13 +16,12 @@ from typing import *
 
 message_rate: Dict[datetime.datetime, Dict[int, int]] = {}
 log = logger.get_gq_logger()
-test_mode = False
 
 __all__ = ['save_message', 'anti_fc']
 
 
 async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=None):
-    if test_mode:
+    if config.TEST_MODE:
         return 'In Test Mode'
     
     message = database.get_col('message')

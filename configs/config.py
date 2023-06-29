@@ -74,3 +74,4 @@ REMOTE_MANAGER_ADMIN_PASSWORD = '123456'
 
 # 其他
 STOP_WORDS = pathlib.Path('./resources/stop_words.txt').read_text(encoding='utf-8').split('\n')
+TEST_MODE = bool(os.environ.get('TEST_MODE', False))

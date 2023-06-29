@@ -44,6 +44,7 @@ jobs:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           QCLOUD_SECRET_ID: ${{ secrets.QCLOUD_SECRET_ID }}
           QCLOUD_SECRET_KEY: ${{ secrets.QCLOUD_SECRET_KEY }}
+          TEST_MODE: True
       
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
