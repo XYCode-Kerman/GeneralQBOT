@@ -8,6 +8,12 @@ On master: ![](https://img.shields.io/codecov/c/gh/XYCode-Kerman/GeneralQBOT?tok
 
 本项目旨在建立一个通用的QQ机器人，方便各群群主对群聊进行管理。
 
+> ⚠警告：**本项目处于不完善状态！由于开发者只有 XYCode-Kerman 一人，而且忙于学业，没有太多的时间用于为本项目找🐛（bug）和增强鲁棒性，请时刻关注其的运行情况并<span style="color: red;">严格按照 Wiki 进行配置！</span>(~~尽管Wiki中的某些内容是过时的，但并无太大区别~~)**。
+>
+> 当你发现一个Bug时，你应该通过Issue向开发者报告，或者在**config.py**中找到开发者的QQ号进行询问。如果需要自行修复，请参见[For Developers][#for-developers]章节！
+>
+> requirements.txt和pip是被本项目弃用的包管理器，本项目正在使用**poetry**作为包管理器。
+
 内置多种功能，包括但不限于**游戏**、**自动面试**、**购买邀请码入群**，**积分系统**等。详情请见 [功能](#功能) 章节。
 
 ## 架构
