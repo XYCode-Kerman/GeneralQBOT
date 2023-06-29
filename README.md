@@ -88,11 +88,16 @@ git clone https://github.com/XYCode-Kerman/GeneralQBOT.git  # 克隆本仓库
 git clone -b develop https://github.com/XYCode-Kerman/GeneralQBOT.git
 ~~~
 
-```bash
+````bash
 # 更新版本
 git checkout origin/master  # 正式版
 git checkout origin/develop # 开发版
-```
+````
+````bash
+# 安装依赖
+pip install poetry
+poetry install
+````
 
 > 我们欢迎您向我们提起**Issue**，以**解决Bug**或者**新增功能**。
 
