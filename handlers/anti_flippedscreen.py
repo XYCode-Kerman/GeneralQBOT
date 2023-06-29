@@ -16,11 +16,15 @@ from typing import *
 
 message_rate: Dict[datetime.datetime, Dict[int, int]] = {}
 log = logger.get_gq_logger()
+test_mode = False
 
 __all__ = ['save_message', 'anti_fc']
 
 
 async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=None):
+    if test_mode:
+        return 'In Test Mode'
+    
     message = database.get_col('message')
     
     message.insert_one(
@@ -50,6 +54,9 @@ async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=No
 
 
 async def check_fc(event: GroupMessage, bot: Mirai, test: bool = False):
+    global test_mode
+    test_mode = test
+    
     date = datetime.datetime.now()
     date = datetime.datetime.fromtimestamp(
         int(date.timestamp()) + (30 - int(date.timestamp()) % 30)
