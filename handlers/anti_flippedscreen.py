@@ -21,8 +21,8 @@ __all__ = ['save_message', 'anti_fc']
 
 
 async def save_message(event: GroupMessage, bot: Mirai, blocked=False, reason=None):
-    if config.TEST_MODE:
-        return 'In Test Mode'
+    # if config.TEST_MODE:
+        # return 'In Test Mode'
     
     message = database.get_col('message')
     

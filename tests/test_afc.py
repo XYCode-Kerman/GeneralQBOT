@@ -31,18 +31,18 @@ async def test_check_fc():
     bot = Mirai()
     
     # test check_fc
-    blocked, reason = await check_fc(event, bot, True)
+    blocked, reason = await check_fc(event, bot)
     assert blocked == False
     assert reason == None
     
     for i in range(ALERT_MESSAGE_RATE + 1):
-        blocked, reason = await check_fc(event, bot, test=True)
+        blocked, reason = await check_fc(event, bot)
         
         if i == ALERT_MESSAGE_RATE:
             assert blocked is True and reason.startswith('警告')
     
     for i in range(MAX_MESSAGE_RATE - ALERT_MESSAGE_RATE + 2):
-        blocked, reason = await check_fc(event, bot, test=True)
+        blocked, reason = await check_fc(event, bot)
         
         if i == MAX_MESSAGE_RATE - ALERT_MESSAGE_RATE + 1:
             assert blocked is True and reason.startswith('撤回+禁言')
