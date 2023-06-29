@@ -116,9 +116,28 @@ poetry install
 
 ## For Developers
 
+|  分支名称   |                             内容                             |
+| :---------: | :----------------------------------------------------------: |
+|   master    |               主分支，为稳定版本的GeneralQBOT                |
+|   develop   |                           开发版本                           |
+| feature_xxx | 某个功能的单独分支，最终合并到develop分支，再由develop分支合并到master |
+|   hotfix    |          大部分增强代码的鲁棒性、修复项目bug的提交           |
+| code_styles |  关于代码风格的提交（不涉及功能开发、bug修复、鲁棒性提升）   |
+|   myself    | 你可以在这个分支中新增你自己需要的功能，但是千万**<span style="color: red">不要</span> 把这个分支推送到主仓库中（Fork的仓库除外）** |
+
+### To Be a Developer
+
+请在`configs/config.py`中的ADMIN_QQ找到XYCode-Kerman的QQ号，并且加为好友。
+
+> 记得备注**来自 Github GeneralQBOT 项目**
+
+你应该对Python有一定了解，所以开发者会让**General QBOT**去面试你。
+
+### 其他的
+
 参见我们的 [Wiki](https://github.com/XYCode-Kerman/GeneralQBOT/wiki)（请注意其最后编辑时间，部分内容可能已经过时）。
 
-## 参与开发![Star History Chart](https://api.star-history.com/svg?repos=XYCode-Kerman/GeneralQBOT&type=Timeline)
+## 开发情况![Star History Chart](https://api.star-history.com/svg?repos=XYCode-Kerman/GeneralQBOT&type=Timeline)
 
 (WIP)
 
