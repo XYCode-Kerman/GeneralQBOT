@@ -247,8 +247,12 @@ if '__main__' == __name__:
             content = response.choices[0].message["content"]
 
             for group in config.GROUP:
-                await bot.send_group_message(group, '[趣味日志] ' + content)
-                await bot.send_group_message(group, f'[免责声明] 本机器人所有的 [定时提醒] [趣味日志] 均由 OpenAI 公司的 gpt-3.5-turbo 模型生成，本人不对其负有任何责任')
+                try:
+                    await bot.send_group_message(group, '[趣味日志] ' + content)
+                    await bot.send_group_message(group, f'[免责声明] 本机器人所有的 [定时提醒] [趣味日志] 均由 OpenAI 公司的 gpt-3.5-turbo 模型生成，本人不对其负有任何责任')
+                except:
+                    logger.error(f'发送启动消息失败：{group}')
+                    logger.error(traceback.format_exc())
 
         # pixiv_listener = handlers.pixiv.listener.PixivListener('tag', 'test', 'girl', CronTrigger(minute='*', second=30), scheduler, bot)
         await start_listeners()
