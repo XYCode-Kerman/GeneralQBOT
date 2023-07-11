@@ -137,7 +137,8 @@ poetry install
 
 参见我们的 [Wiki](https://github.com/XYCode-Kerman/GeneralQBOT/wiki)（请注意其最后编辑时间，部分内容可能已经过时）。
 
-## 开发情况![Star History Chart](https://api.star-history.com/svg?repos=XYCode-Kerman/GeneralQBOT&type=Timeline)
+## 开发情况
+[![Star History Chart](https://api.star-history.com/svg?repos=XYCode-Kerman/GeneralQBOT&type=Date)](https://star-history.com/#XYCode-Kerman/GeneralQBOT&Date)
 
 (WIP)
 
